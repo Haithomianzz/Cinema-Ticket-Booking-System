@@ -1,8 +1,6 @@
 package com.Entities;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Ticket {
     private String qrCode;
@@ -20,12 +18,19 @@ public class Ticket {
         return "" + showtime.getShowtimeId() + booking.getBookingID();
     }
 
-    public int getSeatId() { return seatId; }
+    public int[] getSeatIds() {
+        int[] seatIds = new int[seats.size()];
+        for (int i = 0; i < seats.size(); i++) {
+            seatIds[i] = seats.get(i).getSeatId();
+        }
+        return seatIds;
+    }
     public String getQrCode() { return qrCode; }
 
-    public void setSeatId(int seatId) { this.seatId = seatId; }
-    public void setQrCode(String qrCode) { this.qrCode = qrCode; }
-
+    public void changeSeats(ArrayList<Seat> seats) {
+        this.booking.changeSeats(seats);
+        this.seats = seats;
+    }
     @Override
     public String toString() {
         return "\nQR Code: " + qrCode;

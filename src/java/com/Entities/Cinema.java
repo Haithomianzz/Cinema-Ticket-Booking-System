@@ -1,6 +1,7 @@
 package com.Entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Cinema {
@@ -14,6 +15,8 @@ public class Cinema {
     private String contactInfo;
 
     private ArrayList<Hall> halls;
+
+
 
     public Cinema(String name, String location, int numberOfHalls, String contactInfo) {
         this.cinemaId = counterID++;
@@ -43,13 +46,5 @@ public class Cinema {
                 "\nContact Info: " + contactInfo;
         }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Cinema cinema = (Cinema) o;
-        return cinemaId == cinema.cinemaId && numberOfHalls == cinema.numberOfHalls &&
-                Objects.equals(name, cinema.name) && Objects.equals(location, cinema.location) &&
-                Objects.equals(contactInfo, cinema.contactInfo);
-    }
 
 }

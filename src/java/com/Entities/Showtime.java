@@ -14,50 +14,61 @@ public class Showtime {
 
     private Movie movie;
     private Hall hall;
+
     private ArrayList<Booking> bookings = new ArrayList<>();
     private ArrayList<Ticket> tickets = new ArrayList<>();
     private ArrayList<Seat> seatsEmpty = new ArrayList<>();
 
 
-    public Showtime(int movieId, int hallNumber, Date showDate, String showTime, int availableSeats) {
+    public Showtime(Movie movie, Hall hall, Date showDate, String showTime, int availableSeats) {
         this.showtimeId = counterID++;
-        this.movieId = movieId;
-        this.hallNumber = hallNumber;
+        this.movie = movie;
+        this.hall = hall;
         this.showDate = showDate;
         this.showTime = showTime;
         this.availableSeats = availableSeats;
     }
 
     public int getShowtimeId() { return showtimeId; }
-    public int getMovieId() { return movieId; }
-    public int getHallNumber() { return hallNumber; }
+    public int getMovieId() { return movie.getMovieId(); }
+    public int getHallNumber() { return hall.getHallNumber(); }
     public Date getShowDate() { return showDate; }
     public String getShowTime() { return showTime; }
     public ArrayList<Seat> getAvailableSeats() { return seatsEmpty; }
 
-    public void setMovieId(int movieId) { this.movieId = movieId; }
-    public void setHallNumber(int hallNumber) { this.hallNumber = hallNumber; }
+//    public void setMovieId(int movieId) { this.movieId = movieId; }
+//    public void setHallNumber(int hallNumber) { this.hallNumber = hallNumber; }
     public void setShowDate(Date showDate) { this.showDate = showDate; }
     public void setShowTime(String showTime) { this.showTime = showTime; }
     public void setAvailableSeats(int availableSeats) { this.availableSeats = availableSeats; }
 
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+    }
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+    }
+    public void removeTicket(Ticket ticket) {
+        tickets.remove(ticket);
+    }
     @Override
     public String toString() {
         return "\nShowtime ID: " + showtimeId +
-                "\nMovie ID: " + movieId +
-                "\nHall Number: " + hallNumber +
+                "\nMovie ID: " + getMovieId() +
+                "\nHall Number: " + getHallNumber() +
                 "\nShow Date: " + showDate +
                 "\nShow Time: " + showTime +
                 "\nAvailable Seats: " + availableSeats;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Showtime showtime = (Showtime) o;
-        return showtimeId == showtime.showtimeId && movieId == showtime.movieId &&
-                hallNumber == showtime.hallNumber && availableSeats == showtime.availableSeats &&
-                Objects.equals(showDate, showtime.showDate) && Objects.equals(showTime, showtime.showTime);
+    public void addSeats(ArrayList<Seat> seats) {
+        seatsEmpty.addAll(seats);
     }
 
+    public void removeSeats(ArrayList<Seat> seats) {
+        seatsEmpty.removeAll(seats);
+    }
 }
