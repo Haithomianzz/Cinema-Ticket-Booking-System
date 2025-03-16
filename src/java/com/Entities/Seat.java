@@ -1,46 +1,43 @@
 package com.Entities;
 
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class Seat {
-    private static int counterID = 1;
 
     private int seatId;
-    private int hallNumber;
     private String seatNumber;
     private String rowNumber;
 
-
-    public Seat(int hallNumber, String seatNumber, String rowNumber) {
-        this.seatId = counterID++;
-        this.hallNumber = hallNumber;
+    private Hall hall;
+    private ArrayList<Ticket> tickets = new ArrayList<>();
+    public Seat(Hall hall,int seatId, String seatNumber, String rowNumber) {
+        this.hall = hall;
+        this.seatId = seatId;
         this.seatNumber = seatNumber;
         this.rowNumber = rowNumber;
     }
 
     public int getSeatId() { return seatId; }
-    public int getHallNumber() { return hallNumber; }
+    public int getHallNumber() { return hall.getHallNumber(); }
     public String getSeatNumber() { return seatNumber; }
     public String getRowNumber() { return rowNumber; }
 
-    public void setHallNumber(int hallNumber) { this.hallNumber = hallNumber; }
+    public void setHall(Hall hall) { this.hall = hall; }
     public void setSeatNumber(String seatNumber) { this.seatNumber = seatNumber; }
     public void setRowNumber(String rowNumber) { this.rowNumber = rowNumber; }
 
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+    }
+    public void removeTicket(Ticket ticket) {
+        tickets.remove(ticket);
+    }
     @Override
     public String toString() {
         return "\nSeat ID: " + seatId +
-                "\nHall Number: " + hallNumber +
+                "\nHall Number: " + getHallNumber() +
                 "\nSeat Number: " + seatNumber +
                 "\nRow: " + rowNumber;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Seat seat = (Seat) o;
-        return seatId == seat.seatId && hallNumber == seat.hallNumber &&
-                Objects.equals(seatNumber, seat.seatNumber) && Objects.equals(rowNumber, seat.rowNumber);
     }
 
 }

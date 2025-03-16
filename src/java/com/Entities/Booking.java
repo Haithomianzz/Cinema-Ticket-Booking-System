@@ -1,10 +1,13 @@
 package com.Entities;
 
-import com.company.Date;
+import com.client.Date;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Booking {
+
+
     public enum BookingStatus {
         PENDING,
         CONFIRMED,
@@ -27,7 +30,7 @@ public class Booking {
 
     public Booking(Customer customer, Showtime showtime, int numSeats, double totalPrice, Date bookingDate,
                    BookingStatus bookingStatus, Payment.PaymentMethod paymentMethod, String transactionId,
-                   double amount, String paymentDate, Payment.PaymentStatus PaymentStatus) {
+                   String paymentDate, Payment.PaymentStatus PaymentStatus) {
         this.bookingID = counterID++;
         this.customer = customer;
         this.showtime = showtime;
@@ -36,8 +39,43 @@ public class Booking {
         this.bookingStatus = bookingStatus;
         if (reserveSeats(numSeats)) {
             this.ticket = new Ticket(this, showtime, seats);
-            this.payment = new Payment(paymentMethod, transactionId, amount, paymentDate, PaymentStatus);
+            this.payment = new Payment(this,paymentMethod, transactionId, paymentDate, PaymentStatus);
         }
+    }
+
+    public int getBookingId() {
+        return bookingID;
+    }
+    public int getCustomerId() {
+        return customer.getCustomerId();
+    }
+    public int getShowtimeId() {
+        return showtime.getShowtimeId();
+    }
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+    public void setBookingDate(String bookingDate) { this.bookingDate.setDate(bookingDate); }
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
+    public void setShowtime(Showtime showtime) {
+        this.showtime.removeBooking(this);
+        this.showtime = showtime;
     }
     boolean reserveSeats(int numSeats) {
         if (numSeats > showtime.getAvailableSeats().size()) {
@@ -51,50 +89,31 @@ public class Booking {
         }
         return true;
     }
+    public void addSeats(ArrayList<Seat> seats) {
+        this.seats.addAll(seats);
 
-    public int getBookingID() {
-        return bookingID;
     }
-    public int getCustomerId() {
-        return customerId;
-    }
-    public int getShowtimeID() {
-        return showtimeID;
-    }
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-    public Date getBookingDate() {
-        return bookingDate;
-    }
-    public BookingStatus getBookingStatus() {
-        return bookingStatus;
-    }
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-    public void setShowtimeID(int showtimeID) {
-        this.showtimeID = showtimeID;
-    }
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-    public void setBookingDate(String bookingDate) { this.bookingDate.setDate(bookingDate); }
-    public void setBookingStatus(BookingStatus bookingStatus) {
-        this.bookingStatus = bookingStatus;
+    public void changeSeats(ArrayList<Seat> seats) {
+        this.seats.forEach(seat -> seat.removeTicket(this.ticket));
+        this.seats = seats;
+
     }
 
+    public void confirmBooking() {
+        this.bookingStatus = BookingStatus.CONFIRMED;
+    }
+    public void cancelBooking() {
+        this.bookingStatus = BookingStatus.CANCELLED;
+        this.showtime.addSeats(this.seats);
+        this.payment.refund();
+    }
     @Override
     public String toString() {
         return "\nBooking transaction " +
-                "\ncustomerId=" + customerId +
+                "\ncustomerId=" + customer.getCustomerId() +
                 "\nbookingID=" + bookingID +
-                "\nticketID=" + ticket.getTicketId() +
-                "\nshowtimeID=" + showtimeID +
-                "\nseatID=" + ticket.getSeatId() +
+                "\nshowtimeID=" + showtime.getShowtimeId() +
+                "\nseatIDs=" + Arrays.toString(ticket.getSeatIds()) +
                 "\ntransactionID=" + payment.getTransactionId() +
                 "\ntotalPrice=" + totalPrice +
                 "\nbookingDate='" + bookingDate +

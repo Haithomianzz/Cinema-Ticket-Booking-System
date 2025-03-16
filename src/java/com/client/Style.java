@@ -1,4 +1,4 @@
-package com.company;
+package com.client;
 
 public interface Style {
     String H1 = "-fx-font-weight: bold; -fx-text-fill: #263238; -fx-font-size: 32pt; -fx-font-style: normal; -fx-font-family: Times New Roman;-fx-alignment: center;";

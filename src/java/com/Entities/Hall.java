@@ -13,33 +13,23 @@ public class Hall {
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
 
-    public Hall(int cinemaId, int numberOfSeats) {
+    public Hall(Cinema cinema, int numberOfSeats) {
+        this.cinema = cinema;
         this.hallNumber = counterID++;
-        this.cinemaId = cinemaId;
         this.numberOfSeats = numberOfSeats;
     }
 
     public int getHallNumber() { return hallNumber; }
-    public int getCinemaId() { return cinemaId; }
+    public int getCinemaId() { return cinema.getCinemaId(); }
     public int getNumberOfSeats() { return numberOfSeats; }
 
-    public void setCinemaId(int cinemaId) { this.cinemaId = cinemaId; }
+    public void setCinema(Cinema cinema) { this.cinema = cinema; }
     public void setNumberOfSeats(int numberOfSeats) { this.numberOfSeats = numberOfSeats; }
 
     @Override
     public String toString() {
         return "\nHall Number: " + hallNumber +
-                "\nCinema ID: " + cinemaId +
+                "\nCinema ID: " + cinema.getCinemaId() +
                 "\nNumber of Seats: " + numberOfSeats;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Hall hall = (Hall) o;
-        return hallNumber == hall.hallNumber &&
-                cinemaId == hall.cinemaId &&
-                numberOfSeats == hall.numberOfSeats;
-    }
-
 }

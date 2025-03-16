@@ -1,19 +1,29 @@
 package com.Entities;
 
 
+import com.Dao.CustomerDAO;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Customer {
+
     public enum MembershipStatus {
         REGULAR,
         PREMIUM,
         VIP
     }
+    public static MembershipStatus statusFromString(String status) {
+        return switch (status.toUpperCase()) {
+            case "REGULAR" -> MembershipStatus.REGULAR;
+            case "PREMIUM" -> MembershipStatus.PREMIUM;
+            case "VIP" -> MembershipStatus.VIP;
+            default -> null;
+        };
+    }
 
-    private static int counterID  = 1;
+    private static int counterID;
 
-    private int customer_id;
+    private final int customer_id;
     private String name;
     private String email;
     private String phone_number;
@@ -22,7 +32,7 @@ public class Customer {
 
     private ArrayList<Booking> bookings = new ArrayList<>();
 
-    public Customer(String name, String email, String phone, String address, String Password, MembershipStatus membership) {
+    public Customer(String name, String email, String phone, String Password, MembershipStatus membership) {
         this.customer_id = counterID++;
         this.name = name;
         this.email = email;
@@ -30,7 +40,14 @@ public class Customer {
         this.Password = Password;
         this.membership = membership;
     }
-
+    public Customer(int customer_id, String name, String email, String phone, String Password, MembershipStatus membership) {
+        this.customer_id = customer_id;
+        this.name = name;
+        this.email = email;
+        this.phone_number = phone;
+        this.Password = Password;
+        this.membership = membership;
+    }
     public int getCustomerId() {
         return customer_id;
     }
@@ -49,7 +66,9 @@ public class Customer {
     public MembershipStatus getMembership() {
         return membership;
     }
-
+    public static void setCustomerIdCounter(Integer integer) {
+        counterID = integer;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -66,6 +85,11 @@ public class Customer {
         this.membership = membership;
     }
 
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
+
     public String toString() {
         return "\nCustomerServices ID: " + customer_id +
                 "\nName: " + name +
@@ -73,13 +97,5 @@ public class Customer {
                 "\nPhone: " + phone_number +
                 "\nMembership: " + membership;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return customer_id == customer.customer_id && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(phone_number, customer.phone_number) && Objects.equals(address, customer.address) && Objects.equals(Password, customer.Password) && membership == customer.membership;
-    }
-
 
 }

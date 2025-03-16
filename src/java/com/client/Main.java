@@ -1,4 +1,4 @@
-package com.company;
+package com.client;
 
 import com.Entities.Appointment;
 import com.Entities.Doctor;
