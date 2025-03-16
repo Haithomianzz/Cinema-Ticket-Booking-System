@@ -1,6 +1,5 @@
-package com.company;
+package com.client;
 
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

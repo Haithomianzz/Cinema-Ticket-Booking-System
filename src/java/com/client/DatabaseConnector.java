@@ -1,4 +1,4 @@
-package com.database;
+package com.client;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;

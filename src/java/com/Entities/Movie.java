@@ -1,30 +1,13 @@
 package com.Entities;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class Movie {
-    public enum Genre {
-        ACTION,
-        COMEDY,
-        DRAMA,
-        HORROR,
-        ROMANCE,
-        SCI_FI,
-        THRILLER,
-        ANIMATION,
-        DOCUMENTARY
-    }
-    public enum Language {
-        ENGLISH,
-        SPANISH,
-        FRENCH,
-        GERMAN,
-        MANDARIN,
-        JAPANESE,
-        HINDI,
-        ARABIC
-    }
+    public enum Genre { ACTION, COMEDY, DRAMA, HORROR, ROMANCE, SCI_FI, THRILLER, ANIMATION, DOCUMENTARY }
+    public enum Language { ENGLISH, SPANISH, FRENCH, GERMAN, MANDARIN, JAPANESE, HINDI, ARABIC }
+
     private static int counterID = 1;
 
     private int movieId;
@@ -66,6 +49,12 @@ public class Movie {
     public void setRating(String rating) { this.rating = rating; }
     public void setDescription(String description) { this.description = description; }
 
+    public void addShowtime(Showtime showtime) {
+        showtimes.add(showtime);
+    }
+    public void removeShowtime(Showtime showtime) {
+        showtimes.remove(showtime);
+    }
     @Override
     public String toString() {
         return "\nMovie ID: " + movieId +
@@ -77,15 +66,4 @@ public class Movie {
                 "\nRating: " + rating +
                 "\nDescription: " + description;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return movieId == movie.movieId && duration == movie.duration &&
-                Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre) &&
-                Objects.equals(language, movie.language) && Objects.equals(releaseDate, movie.releaseDate) &&
-                Objects.equals(rating, movie.rating) && Objects.equals(description, movie.description);
-    }
-
 }

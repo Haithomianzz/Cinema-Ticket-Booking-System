@@ -7,10 +7,11 @@ module com.company {
     requires jdk.jshell;
     requires jdk.compiler;
     requires com.microsoft.sqlserver.jdbc;
+    requires javatuples;
 
 
-    opens com.company to javafx.fxml;
+    opens com.client to javafx.fxml;
     opens com.Entities to javafx.base;
 
-    exports com.company;
+    exports com.client;
 }
