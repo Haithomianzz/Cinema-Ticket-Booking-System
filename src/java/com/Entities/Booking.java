@@ -61,6 +61,9 @@ public class Booking {
     public BookingStatus getBookingStatus() {
         return bookingStatus;
     }
+    public Showtime getShowtime() { return showtime;}
+    public ArrayList<Seat> getSeats() { return seats; }
+    public Payment getPayment() { return payment; }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;

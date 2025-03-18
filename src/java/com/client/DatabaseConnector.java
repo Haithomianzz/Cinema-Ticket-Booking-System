@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class DatabaseConnector {
 
-    private static final String CONN_STRING = "your_connection_string";
+    private static final String CONN_STRING = "your_connection_string/Database";
     private static final String USERNAME = "your_username";
     private static final String PASSWORD = "your_password";
 

@@ -25,6 +25,12 @@ public class Cinema {
         this.numberOfHalls = numberOfHalls;
         this.contactInfo = contactInfo;
     }
+    public void addHall(Hall hall) {
+        halls.add(hall);
+    }
+    public void removeHall(Hall hall) {
+        halls.remove(hall);
+    }
 
     public int getCinemaId() { return cinemaId; }
     public String getName() { return name; }
@@ -36,15 +42,6 @@ public class Cinema {
     public void setLocation(String location) { this.location = location; }
     public void setNumberOfHalls(int numberOfHalls) { this.numberOfHalls = numberOfHalls; }
     public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
-
-    @Override
-    public String toString() {
-        return "\nCinema ID: " + cinemaId +
-                "\nName: " + name +
-                "\nLocation: " + location +
-                "\nNumber of Halls: " + numberOfHalls +
-                "\nContact Info: " + contactInfo;
-        }
 
 
 }

@@ -48,6 +48,13 @@ public class Customer {
         this.Password = Password;
         this.membership = membership;
     }
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+    }
+
     public int getCustomerId() {
         return customer_id;
     }
@@ -85,17 +92,6 @@ public class Customer {
         this.membership = membership;
     }
 
-    public void addBooking(Booking booking) {
-        bookings.add(booking);
-    }
 
-
-    public String toString() {
-        return "\nCustomerServices ID: " + customer_id +
-                "\nName: " + name +
-                "\nEmail: " + email +
-                "\nPhone: " + phone_number +
-                "\nMembership: " + membership;
-    }
 
 }
