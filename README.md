@@ -1,21 +1,14 @@
-# Healthcare System
+# Cinema Booking System
 
-The Healthcare System is a Java-based application designed to streamline and manage various healthcare-related operations. It provides functionalities for patient management, appointment scheduling, medical records handling, and more, aiming to enhance the efficiency of healthcare service delivery.
+The Cinema Booking System is a Java-based application designed to streamline and manage various cinema-related operations. It provides functionalities for seat management, showtime scheduling, ticket booking, and more, aiming to enhance the efficiency of cinema service delivery.
 
 ## Features
 
-- **Patient Management**: Add, update, and retrieve patient information seamlessly.
-- **Appointment Scheduling**: Schedule, reschedule, and cancel appointments with ease.
-- **Medical Records Handling**: Maintain and access patient medical histories securely.
+- **Seat Management**: Add, update, and retrieve seat information seamlessly.
+- **Showtime Scheduling**: Schedule, reschedule, and cancel showtimes with ease.
+- **Ticket Booking**: Book, update, and cancel tickets securely.
 - **User Authentication**: Ensure secure access through robust authentication mechanisms.
 
-## Authors
-
-[**Marwan Haitham**](https://github.com/Haithomianzz)
-[**Omar Helwa**](https://github.com/Omar-Helwa)
-[**Ibrahim Abdelfattah**](https://github.com/BimaTh)
-[**Salma Moussa**](https://github.com/SalmaMoussa47)
-[**Nada Serour**](https://github.com/nadaserour)
 ## Getting Started
 
 Follow these instructions to set up the project on your local machine for development and testing purposes.
@@ -24,35 +17,35 @@ Follow these instructions to set up the project on your local machine for develo
 
 Ensure you have the following installed:
 
-- **Java Development Kit (JDK)**: Version 8 or higher (JDK 8+ Requires seperate JFX Library as deprecated).
+- **Java Development Kit (JDK)**: Version 8 or higher.
 - **JDBC**: Java Database Connector Library.
 - **Apache Maven**: For dependency management and building the project.
-- **MySQL**: Database to store application data.
+- **SQL Server**: Database to store application data.
 
 ### Installation
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/Haithomianzz/Healthcare-System.git
+   git clone https://github.com/Haithomianzz/Cinema-Booking-System.git
    ```
 
 2. **Navigate to the Project Directory**:
 
    ```bash
-   cd Healthcare-System
+   cd Cinema-Booking-System
    ```
 
 3. **Configure the Database**:
 
-   - Create a MySQL database named `healthcare_system`.
-   - Update the database configuration in `src/main/resources/application.properties` with your MySQL credentials.
+   - Create a SQL Server database named `cinema_booking_system` with suitable tables.
+   - Update the database configuration in `src/java/com/client/DatabaseConnector.java` with your SQL Server credentials.
 
 ## Built With
 
 - **JavaFX**: Framework for building Java-based applications.
-- **JDBC**: Database connector for Java applications with MySQL dependancy.
-- **MySQL**: Relational database management system.
+- **JDBC**: Database connector for Java applications.
+- **SQL Server**: Relational database management system.
 - **Maven**: Dependency management and build automation tool.
 
 ## Contributing
@@ -79,10 +72,3 @@ We welcome contributions to enhance the project. Please follow these steps:
    ```
 
 5. **Open a Pull Request**.
-
-
-
-
-
-
----
