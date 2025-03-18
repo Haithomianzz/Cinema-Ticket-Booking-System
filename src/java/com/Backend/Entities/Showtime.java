@@ -1,8 +1,7 @@
-package com.Entities;
+package com.Backend.Entities;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 public class Showtime {
     private static int counterID = 1;

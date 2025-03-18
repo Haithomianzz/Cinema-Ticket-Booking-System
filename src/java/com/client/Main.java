@@ -1,10 +1,10 @@
 package com.client;
 
-import com.Entities.Appointment;
-import com.Entities.Doctor;
-import com.Entities.EmergencyPatient;
-import com.Entities.NormalPatient;
-import com.Entities.Patient;
+import com.Backend.Entities.Appointment;
+import com.Backend.Entities.Doctor;
+import com.Backend.Entities.EmergencyPatient;
+import com.Backend.Entities.NormalPatient;
+import com.Backend.Entities.Patient;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

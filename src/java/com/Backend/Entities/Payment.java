@@ -1,4 +1,4 @@
-package com.Entities;
+package com.Backend.Entities;
 
 public class Payment {
     public enum PaymentMethod {

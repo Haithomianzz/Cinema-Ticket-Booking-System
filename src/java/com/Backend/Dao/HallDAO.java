@@ -1,7 +1,7 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Cinema;
-import com.Entities.Hall;
+import com.Backend.Entities.Cinema;
+import com.Backend.Entities.Hall;
 import org.javatuples.Pair;
 import java.sql.Connection;
 import java.util.HashMap;

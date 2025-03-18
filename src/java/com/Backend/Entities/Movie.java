@@ -1,8 +1,5 @@
-package com.Entities;
+package com.Backend.Entities;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 public class Movie {
     public enum Genre { ACTION, COMEDY, DRAMA, HORROR, ROMANCE, SCI_FI, THRILLER, ANIMATION, DOCUMENTARY }

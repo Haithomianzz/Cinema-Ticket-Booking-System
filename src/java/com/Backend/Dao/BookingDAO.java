@@ -1,7 +1,7 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Booking;
-import com.Entities.Customer;
+import com.Backend.Entities.Booking;
+import com.Backend.Entities.Customer;
 
 import java.sql.Connection;
 import java.util.HashMap;

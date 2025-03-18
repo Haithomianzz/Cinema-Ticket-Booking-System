@@ -1,6 +1,6 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Cinema;
+import com.Backend.Entities.Cinema;
 
 import java.sql.Connection;
 import java.util.HashMap;

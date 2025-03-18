@@ -1,7 +1,7 @@
 package com.client;
 
-import com.Dao.*;
-import com.Entities.*;
+import com.Backend.Dao.*;
+import com.Backend.Entities.*;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import java.sql.Connection;

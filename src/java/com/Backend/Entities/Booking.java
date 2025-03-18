@@ -1,4 +1,4 @@
-package com.Entities;
+package com.Backend.Entities;
 
 import com.client.Date;
 

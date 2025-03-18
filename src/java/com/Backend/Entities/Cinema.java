@@ -1,8 +1,6 @@
-package com.Entities;
+package com.Backend.Entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
 public class Cinema {
 

@@ -1,7 +1,5 @@
-package com.Entities;
+package com.Backend.Entities;
 
-
-import com.Dao.CustomerDAO;
 
 import java.util.ArrayList;
 

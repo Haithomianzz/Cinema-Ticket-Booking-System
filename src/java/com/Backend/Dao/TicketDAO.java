@@ -1,8 +1,8 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Seat;
-import com.Entities.Showtime;
-import com.Entities.Ticket;
+import com.Backend.Entities.Seat;
+import com.Backend.Entities.Showtime;
+import com.Backend.Entities.Ticket;
 
 import java.sql.Connection;
 import java.util.HashMap;

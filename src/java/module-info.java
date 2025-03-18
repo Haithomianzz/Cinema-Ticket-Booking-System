@@ -11,7 +11,7 @@ module com.company {
 
 
     opens com.client to javafx.fxml;
-    opens com.Entities to javafx.base;
+    opens com.Backend.Entities to javafx.base;
 
     exports com.client;
 }

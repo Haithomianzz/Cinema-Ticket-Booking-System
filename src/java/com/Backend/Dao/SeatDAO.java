@@ -1,7 +1,7 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Hall;
-import com.Entities.Seat;
+import com.Backend.Entities.Hall;
+import com.Backend.Entities.Seat;
 import org.javatuples.Pair;
 
 import java.sql.Connection;

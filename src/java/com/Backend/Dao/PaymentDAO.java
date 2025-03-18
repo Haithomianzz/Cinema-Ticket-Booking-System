@@ -1,6 +1,6 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Payment;
+import com.Backend.Entities.Payment;
 
 import java.sql.Connection;
 import java.util.HashMap;

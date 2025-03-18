@@ -1,8 +1,8 @@
-package com.Dao;
+package com.Backend.Dao;
 
-import com.Entities.Hall;
-import com.Entities.Movie;
-import com.Entities.Showtime;
+import com.Backend.Entities.Hall;
+import com.Backend.Entities.Movie;
+import com.Backend.Entities.Showtime;
 import org.javatuples.Pair;
 
 import java.sql.Connection;
