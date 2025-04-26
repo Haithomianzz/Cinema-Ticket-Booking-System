@@ -1,4 +1,4 @@
-package com.client;
+package com.Frontend;
 
 public interface Style {
     String H1 = "-fx-font-weight: bold; -fx-text-fill: #263238; -fx-font-size: 32pt; -fx-font-style: normal; -fx-font-family: Times New Roman;-fx-alignment: center;";
@@ -14,10 +14,10 @@ public interface Style {
     String Header = "-fx-background-color: #003366; -fx-text-fill: white; -fx-font-size: 24pt; -fx-padding: 10px;";
     int bwidth = 280;
     int blength= 140;
-    String DOCTORS_ICON = "file:src/java/com/company/resources/Doctors.png";
-    String PATIENTS_ICON = "file:src/java/com/company/resources/Patients.png";
-    String LOGOUT_ICON = "file:src/java/com/company/resources/Logout.png";
-    String APPTS_ICON ="file:src/java/com/company/resources/Appointments.png";
-    String ROOM_ICON ="file:src/java/com/company/resources/Rooms.png";
-    String DIAGNOSIS_ICON = "file:src/java/com/company/resources/Diagnosis.png";
+    String DOCTORS_ICON = "file:src/java/com/company/resources/doctors_icon.png";
+    String PATIENTS_ICON = "file:src/java/com/company/resources/patients_icon.png";
+    String LOGOUT_ICON = "file:src/java/com/company/resources/logout_icon.png";
+    String APPTS_ICON ="file:src/java/com/company/resources/appointments_icon.png";
+    String ROOM_ICON ="file:src/java/com/company/resources/rooms_icon.png";
+    String DIAGNOSIS_ICON = "file:src/java/com/company/resources/diagnosis_icon.png";
 }

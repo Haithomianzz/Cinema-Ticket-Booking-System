@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.HPos?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="adminDashboard" alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Client.controllers.AdminDashboardController">
+    <children>
+        <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #003366;">
+            <children>
+                <Label fx:id="headerLabel" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="   Admin Dashboard" />
+            </children>
+        </HBox>
+        <GridPane fx:id="adminGrid" alignment="CENTER" hgap="20.0" style="-fx-font-size: 16px;" vgap="20.0" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="doctorsButton" mnemonicParsing="false" onAction="#handleDoctorsButton" style="-fx-background-color: transparent; -fx-padding: 0;" GridPane.rowIndex="0">
+                    <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../resources/icons/doctors_icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="patientsButton" mnemonicParsing="false" onAction="#handlePatientsButton" style="-fx-background-color: transparent; -fx-padding: 0;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../resources/icons/patients_icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="appointmentsButton" mnemonicParsing="false" onAction="#handleAppointmentsButton" style="-fx-background-color: transparent; -fx-padding: 0;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../resources/icons/appointments_icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Label text="Doctors" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                <Label text="Patients" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                <Label text="Appointments" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                <Button fx:id="roomsButton" mnemonicParsing="false" onAction="#handleRoomsButton" style="-fx-background-color: transparent; -fx-padding: 0;" GridPane.rowIndex="2">
+                    <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../resources/icons/rooms_icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-background-color: transparent; -fx-padding: 0;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../resources/icons/logout_icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Label text="Rooms" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Label text="Log Out" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            </children>
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+        </GridPane>
+    </children>
+</VBox>

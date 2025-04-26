@@ -10,22 +10,12 @@ public class Customer {
         PREMIUM,
         VIP
     }
-    public static MembershipStatus statusFromString(String status) {
-        return switch (status.toUpperCase()) {
-            case "REGULAR" -> MembershipStatus.REGULAR;
-            case "PREMIUM" -> MembershipStatus.PREMIUM;
-            case "VIP" -> MembershipStatus.VIP;
-            default -> null;
-        };
-    }
-
-    private static int counterID;
-
+    private static int counterID = 0;
     private final int customer_id;
     private String name;
     private String email;
+    private String password;
     private String phone_number;
-    private String Password;
     private MembershipStatus membership;
 
     private ArrayList<Booking> bookings = new ArrayList<>();
@@ -35,7 +25,7 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.phone_number = phone;
-        this.Password = Password;
+        this.password = Password;
         this.membership = membership;
     }
     public Customer(int customer_id, String name, String email, String phone, String Password, MembershipStatus membership) {
@@ -43,8 +33,14 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.phone_number = phone;
-        this.Password = Password;
+        this.password = Password;
         this.membership = membership;
+    }
+    public void editProfile(String name, String email, String phone, String Password) {
+        this.name = (name != null && !name.equals(this.name)) ? name : this.name;
+        this.email = (email != null && !email.equals(this.email)) ? email : this.email;
+        this.phone_number = (phone != null && !phone.equals(this.phone_number)) ? phone : this.phone_number;
+        this.password = (Password != null && !Password.equals(this.password)) ? Password : this.password;
     }
     public void addBooking(Booking booking) {
         bookings.add(booking);
@@ -66,11 +62,13 @@ public class Customer {
         return phone_number;
     }
     public String getPassword() {
-        return Password;
+        return password;
     }
     public MembershipStatus getMembership() {
         return membership;
     }
+    public ArrayList<Booking> getBookings() { return bookings; }
+
     public static void setCustomerIdCounter(Integer integer) {
         counterID = integer;
     }
@@ -84,7 +82,7 @@ public class Customer {
         this.phone_number = phone;
     }
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
     public void setMembership(MembershipStatus membership) {
         this.membership = membership;

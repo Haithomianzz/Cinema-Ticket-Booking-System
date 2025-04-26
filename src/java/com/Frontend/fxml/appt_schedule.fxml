@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="schedule" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Frontend.controllers.ApptScheduleController">
+    <top>
+        <HBox fx:id="headerBox" alignment="CENTER_LEFT" prefHeight="75.0" style="-fx-background-color: #003366;" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="header" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" text="   Appointments" />
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox fx:id="sideMenu" prefWidth="300.0" spacing="10.0" style="-fx-background-color: #3a4f63;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <Button fx:id="doctorProfileSideButton" mnemonicParsing="false" onAction="#handleDoctorProfileSideButton" prefWidth="250.0" style="-fx-font-size: 16px;" text="Doctor Profile" />
+                <Button fx:id="doctorPatientsSideButton" mnemonicParsing="false" onAction="#handleDoctorPatientsSideButton" prefWidth="250.0" style="-fx-font-size: 16px;" text="Patients" />
+                <Button fx:id="diagnosesSideButton" mnemonicParsing="false" onAction="#handleDiagnosesSideButton" prefWidth="250.0" style="-fx-font-size: 16px;" text="Diagnoses" />
+                <Button fx:id="backSideButton" mnemonicParsing="false" onAction="#handleBackSideButton" prefWidth="250.0" style="-fx-font-size: 16px;" text="Back" />
+                <Button fx:id="logoutSideButton" mnemonicParsing="false" onAction="#handleLogoutSideButton" prefWidth="250.0" style="-fx-font-size: 16px;" text="Logout" />
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox fx:id="calendarContent" alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox fx:id="monthNavBox" alignment="CENTER" spacing="50.0" style="-fx-background-color: #f0f0f0;">
+                    <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                    </padding>
+                    <children>
+                        <Button fx:id="prevMonthButton" mnemonicParsing="false" onAction="#handlePrevMonth" text="&lt;" />
+                        <Label fx:id="monthLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Month Year" />
+                        <Button fx:id="nextMonthButton" mnemonicParsing="false" onAction="#handleNextMonth" text="&gt;" />
+                    </children>
+                </HBox>
+                <GridPane fx:id="calendarGrid" alignment="CENTER" hgap="5.0" vgap="5.0" VBox.vgrow="ALWAYS">
+                </GridPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

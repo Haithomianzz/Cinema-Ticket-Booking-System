@@ -10,8 +10,12 @@ module com.company {
     requires javatuples;
 
 
-    opens com.client to javafx.fxml;
+    opens com.Frontend to javafx.fxml;
     opens com.Backend.Entities to javafx.base;
 
-    exports com.client;
+    exports com.Frontend;
+    exports com.Backend.Dao;
+    opens com.Backend.Dao to javafx.fxml;
+    exports com.Backend;
+    opens com.Backend to javafx.fxml;
 }

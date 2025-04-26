@@ -1,4 +1,4 @@
-package com.client;
+package com.Backend.Dao;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;
@@ -8,10 +8,11 @@ import java.sql.SQLException;
  * Provides methods to connect to the database.
  */
 public class DatabaseConnector {
+    private static final String CONN_STRING = "jdbc:sqlserver://72.146.24.134:1433/Cinema";
 
-    private static final String CONN_STRING = "your_connection_string/Database";
-    private static final String USERNAME = "your_username";
-    private static final String PASSWORD = "your_password";
+
+    private static final String USERNAME = "system";
+    private static final String PASSWORD = "ayhaga42";
 
     private static final SQLServerDataSource dataSource = new SQLServerDataSource();
     private static Connection connection = null;

@@ -3,33 +3,51 @@ package com.Backend.Entities;
 import java.util.ArrayList;
 
 public class Hall {
-    private static int counterID = 1;
+    private static int counterID = 0;
 
-    private int hallNumber;
+    private final int hallNumber;
     private int numberOfSeats;
 
-    private Cinema cinema;
     private ArrayList<Seat> seats = new ArrayList<>();
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
-
-    public Hall(Cinema cinema, int numberOfSeats) {
-        this.cinema = cinema;
+    public Hall(int numberOfSeats) {
         this.hallNumber = counterID++;
         this.numberOfSeats = numberOfSeats;
     }
-
+    public Hall(int hallNumber, int numberOfSeats) {
+        this.hallNumber = hallNumber;
+        this.numberOfSeats = numberOfSeats;
+    }
     public int getHallNumber() { return hallNumber; }
-    public int getCinemaId() { return cinema.getCinemaId(); }
     public int getNumberOfSeats() { return numberOfSeats; }
+    public ArrayList<Seat> getSeats() { return seats; }
+    public ArrayList<Showtime> getShowtimes() { return showtimes; }
 
-    public void setCinema(Cinema cinema) { this.cinema = cinema; }
+
     public void setNumberOfSeats(int numberOfSeats) { this.numberOfSeats = numberOfSeats; }
+    public void addSeat(Seat seat) {
+        seats.add(seat);
+        numberOfSeats++;
+    }
+    public void removeSeat(Seat seat) {
+        seats.remove(seat);
+        numberOfSeats--;
+    }
+    public void addShowtime(Showtime showtime) {
+        showtimes.add(showtime);
+    }
+    public void removeShowtime(Showtime showtime) {
+        showtimes.remove(showtime);
+    }
+
+    public static void setHallIdCounter(int counterID) {
+        Hall.counterID = counterID;
+    }
 
     @Override
     public String toString() {
         return "\nHall Number: " + hallNumber +
-                "\nCinema ID: " + cinema.getCinemaId() +
                 "\nNumber of Seats: " + numberOfSeats;
     }
 }

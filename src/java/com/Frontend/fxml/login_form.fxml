@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="loginFPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Frontend.controllers.LoginFormController">
+    <children>
+        <ImageView fx:id="backgroundImageView" fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../resources/background.jpg" />
+            </image>
+        </ImageView>
+        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" style="-fx-font-size: 16px; -fx-background-color: #6c757d; -fx-text-fill: white; -fx-background-radius: 5;" text="Back" StackPane.alignment="BOTTOM_LEFT">
+            <StackPane.margin>
+                <Insets bottom="20.0" left="20.0" />
+            </StackPane.margin>
+        </Button>
+        <StackPane fx:id="frame" maxHeight="450.0" maxWidth="750.0" style="-fx-background-color: rgba(200, 200, 200, 0.8); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black; -fx-border-width: 2;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <GridPane fx:id="form" alignment="CENTER" hgap="20.0" maxHeight="330.0" maxWidth="680.0" style="-fx-background-color: #eeeeee;" vgap="25.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="350.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="113.0" minHeight="10.0" prefHeight="113.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Username:" GridPane.rowIndex="0" />
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Password:" GridPane.rowIndex="1" />
+                        <TextField fx:id="usernameField" prefHeight="40.0" prefWidth="350.0" promptText="Username" style="-fx-font-size: 16px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <PasswordField fx:id="passwordField" prefHeight="40.0" prefWidth="350.0" promptText="Password" style="-fx-font-size: 16px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="loginButton" maxWidth="200.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="39.0" prefWidth="224.0" style="-fx-font-size: 18px; -fx-background-color: #007bff; -fx-text-fill: white; -fx-background-radius: 5;" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    </children>
+                    <padding>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                    </padding>
+                </GridPane>
+            </children>
+        </StackPane>
+    </children>
+</StackPane>

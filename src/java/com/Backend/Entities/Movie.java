@@ -1,49 +1,73 @@
 package com.Backend.Entities;
 import java.util.ArrayList;
-
+import com.Frontend.Date;
 public class Movie {
     public enum Genre { ACTION, COMEDY, DRAMA, HORROR, ROMANCE, SCI_FI, THRILLER, ANIMATION, DOCUMENTARY }
     public enum Language { ENGLISH, SPANISH, FRENCH, GERMAN, MANDARIN, JAPANESE, HINDI, ARABIC }
 
-    private static int counterID = 1;
+    private static int counterID = 0;
 
-    private int movieId;
+    private final int movieId;
     private String title;
-    private String genre;
-    private int duration;
-    private String language;
-    private String releaseDate;
-    private String rating;
     private String description;
+
+
+    private Language language;
+
+    private Float rating;
+    private int duration;
+    private Date releaseDate;
+    private ArrayList<Genre> genres;
 
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
-    public Movie(String title, String genre, int duration, String language, String releaseDate, String rating, String description) {
+    public Movie(String title, String description,Float rating,String language,  int duration,String releaseDate, ArrayList<Genre> genres) {
         this.movieId = counterID++;
         this.title = title;
-        this.genre = genre;
-        this.duration = duration;
-        this.language = language;
-        this.releaseDate = releaseDate;
-        this.rating = rating;
         this.description = description;
+        this.rating = rating;
+        this.language = Language.valueOf(language.toUpperCase());
+        this.duration = duration;
+        this.releaseDate = new Date(releaseDate);
+        this.genres = genres;
     }
-
+    public Movie(int movieId,String title, String description,Float rating,String language,  int duration,String releaseDate, ArrayList<Genre> genres) {
+        this.movieId = movieId;
+        this.title = title;
+        this.description = description;
+        this.rating = rating;
+        this.language = Language.valueOf(language.toUpperCase());
+        this.duration = duration;
+        this.releaseDate = new Date(releaseDate);
+        this.genres = genres;
+    }
+    public void editMovie(String title, String description,Float rating,String language,  int duration,String releaseDate, ArrayList<Genre> genres) {
+        this.title = (title != null && !title.equals(this.title)) ? title : this.title;
+        this.description = (description != null && !description.equals(this.description)) ? description : this.description;
+        this.rating = (rating != null && !rating.equals(this.rating)) ? rating : this.rating;
+        this.language = (language != null && !language.equals(this.language.toString())) ? Language.valueOf(language.toUpperCase()) : this.language;
+        this.duration = (duration != 0 && duration != this.duration) ? duration : this.duration;
+        this.releaseDate = (releaseDate != null && !releaseDate.equals(this.releaseDate.toString())) ? new Date(releaseDate) : this.releaseDate;
+        this.genres = (genres != null && !genres.equals(this.genres)) ? genres : this.genres;
+    }
     public int getMovieId() { return movieId; }
     public String getTitle() { return title; }
-    public String getGenre() { return genre; }
     public int getDuration() { return duration; }
-    public String getLanguage() { return language; }
-    public String getReleaseDate() { return releaseDate; }
-    public String getRating() { return rating; }
+    public Language getLanguage() { return language; }
+    public Date getReleaseDate() { return releaseDate; }
+    public Float getRating() { return rating; }
     public String getDescription() { return description; }
+    public ArrayList<Genre> getGenres() { return genres; }
+    public ArrayList<Showtime> getShowtimes() { return showtimes; }
+
+
+    public static void setMovieIdCounter(int counterID) { Movie.counterID = counterID; }
 
     public void setTitle(String title) { this.title = title; }
-    public void setGenre(String genre) { this.genre = genre; }
     public void setDuration(int duration) { this.duration = duration; }
-    public void setLanguage(String language) { this.language = language; }
-    public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
-    public void setRating(String rating) { this.rating = rating; }
+    public void setLanguage(String language) { this.language = Language.valueOf(language); }
+    public void setReleaseDate(String releaseDate) { this.releaseDate = new Date(releaseDate); }
+    public void setRating(Float rating) { this.rating = rating; }
     public void setDescription(String description) { this.description = description; }
 
     public void addShowtime(Showtime showtime) {
@@ -56,11 +80,11 @@ public class Movie {
     public String toString() {
         return "\nMovie ID: " + movieId +
                 "\nTitle: " + title +
-                "\nGenre: " + genre +
                 "\nDuration: " + duration +
                 "\nLanguage: " + language +
                 "\nRelease Date: " + releaseDate +
                 "\nRating: " + rating +
-                "\nDescription: " + description;
+                "\nDescription: " + description +
+                "\nGenres: " + genres;
     }
 }
