@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1336.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1291.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="156.0">
+                    <children>
+                        <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Label prefHeight="60.0" prefWidth="94.0" text="Cinema">
+                            <font>
+                                <Font name="Microsoft Sans Serif" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </HBox>
+                <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="30.0" prefWidth="6.0" />
+            <AnchorPane prefHeight="60.0" prefWidth="274.0">
+               <children>
+                  <TextField layoutY="15.0" prefHeight="30.0" prefWidth="268.0" promptText="Search" style="-fx-background-color: transparent; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #000000;" />
+                  <FontAwesomeIcon fill="#515151" glyphName="SEARCH" layoutX="246.0" layoutY="36.0" size="1.5em" text="" />
+               </children>
+            </AnchorPane>
+                <HBox alignment="CENTER" prefHeight="60.0" prefWidth="478.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                    <children>
+                  <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Home" />
+                        <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
+                  <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Movies" />
+                        <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
+                  <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Bookings" />
+                        <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
+                  <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Tickets" />
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="60.0" prefWidth="206.0">
+                    <children>
+                        <Label fx:id="C_Username" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="129.0" text="Username">
+                            <font>
+                                <Font name="Microsoft Sans Serif" size="13.0" />
+                            </font>
+                        </Label>
+                        <ImageView fx:id="C_Profile" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/User.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+        </HBox>
+    </top>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="2.0" layoutY="10.0" prefHeight="704.0" prefWidth="1114.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <Label layoutX="22.0" layoutY="14.0" prefHeight="36.0" prefWidth="216.0" styleClass="header-1" stylesheets="@Styles.css" text="Movies Details">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane layoutX="22.0" layoutY="68.0" prefHeight="390.0" prefWidth="280.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.leftAnchor="22.0">
+                     <children>
+                        <ImageView fx:id="MDP_MImage" fitHeight="360.0" fitWidth="260.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="15.0">
+                           <image>
+                              <Image url="@../resources/Avenger.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="318.0" layoutY="68.0" prefHeight="389.0" prefWidth="970.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="318.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="68.0">
+                     <children>
+                        <Label layoutX="29.0" layoutY="235.0" prefHeight="30.0" prefWidth="109.0" text="Description :">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="28.0" layoutY="166.0" prefHeight="26.0" prefWidth="65.0" text="Genre :">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="28.0" layoutY="128.0" prefHeight="26.0" prefWidth="116.0" text="Release_date : ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="28.0" layoutY="201.0" prefHeight="26.0" prefWidth="90.0" text="Language :">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="28.0" layoutY="91.0" prefHeight="26.0" prefWidth="82.0" text="Duration : ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="28.0" layoutY="55.0" prefHeight="26.0" prefWidth="66.0" text="Rating : ">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_Title" alignment="CENTER" layoutX="169.0" layoutY="6.0" prefHeight="35.0" prefWidth="483.0" text="Avengers: Endgame">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="MDP_LGenre" layoutX="94.0" layoutY="167.0" prefHeight="29.0" prefWidth="848.0" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="167.0" />
+                        <Label layoutX="94.0" layoutY="58.0" text="★" textAlignment="CENTER" textFill="orange">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_Mrate" layoutX="112.0" layoutY="61.0" prefHeight="16.0" prefWidth="37.0" text="4.8">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_Language" layoutX="124.0" layoutY="202.0" prefHeight="19.0" prefWidth="64.0" text="English">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_Description" alignment="TOP_LEFT" layoutX="31.0" layoutY="269.0" prefHeight="99.0" prefWidth="913.0" text="The grave course of events set in motion by Thanos that wiped out half the universe and fractured the Avengers ranks compels the remaining Avengers to take one final stand in Marvel Studios’ grand conclusion to 22 films, “Avengers: Endgame.”" wrapText="true">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_RDate" layoutX="144.0" layoutY="128.0" prefHeight="26.0" prefWidth="131.0" text="24 April 2019">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="MDP_Duration" layoutX="112.0" layoutY="91.0" prefHeight="26.0" prefWidth="89.0" text="185 min">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="22.0" layoutY="579.0" prefHeight="201.0" prefWidth="1266.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="472.0">
+                     <children>
+                        <Label layoutX="21.0" layoutY="14.0" prefHeight="36.0" prefWidth="216.0" styleClass="header-1" stylesheets="@Styles.css" text="Show times">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="MDP_Shows" layoutX="21.0" layoutY="62.0" prefHeight="130.0" prefWidth="1225.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="62.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

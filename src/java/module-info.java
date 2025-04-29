@@ -7,8 +7,7 @@ module com.company {
     requires jdk.jshell;
     requires jdk.compiler;
     requires com.microsoft.sqlserver.jdbc;
-    requires javatuples;
-
+    requires fontawesomefx;
 
     opens com.Frontend to javafx.fxml;
     opens com.Backend.Entities to javafx.base;

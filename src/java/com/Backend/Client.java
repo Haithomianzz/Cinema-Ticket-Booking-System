@@ -230,6 +230,7 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
     }
+
     public boolean updateCustomer(Customer customer) { return CustomerDAO.updateCustomer(connection, customer); }
     public boolean updateMovie(Movie movie) { return MovieDAO.updateMovie(connection, movie); }
     public boolean updateHall(Hall hall) { return HallDAO.updateHall(connection, hall); }

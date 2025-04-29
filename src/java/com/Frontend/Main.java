@@ -19,7 +19,7 @@ public class Main extends Application {
         primaryStage.setTitle("Cinema Ticket Booking System v1.0");
 
         // Load the initial scene (Menu)
-        loadScene("fxml/menu.fxml");
+        loadScene("fxml/Login_Page.fxml");
 
         primaryStage.show();
     }
@@ -27,7 +27,7 @@ public class Main extends Application {
     // Helper method to load and switch scenes
     public static void loadScene(String fxmlPath) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource(fxmlPath)));
-        int[] Resolution = {1920, 1080}; // Or load from config
+        int[] Resolution = {1280, 720};
         Scene scene = new Scene(root, Resolution[0], Resolution[1]);
         primaryStage.setScene(scene);
     }
