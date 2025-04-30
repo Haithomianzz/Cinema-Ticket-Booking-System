@@ -1,5 +1,6 @@
 package com.Frontend.controllers;
 
+import com.Backend.Client;
 import com.Backend.Entities.Customer;
 import com.Frontend.AlertBox;
 import com.Frontend.SceneController;
@@ -21,18 +22,16 @@ public class Signup_PageController {
     private TextField SP_Password;
 
     public void Signup(ActionEvent event) throws IOException {
-        String username = SP_Name.getText().trim();
-        String email = SP_Email.getText().trim();
-        String password =  SP_Password.getText().trim();
-        String Phone = SP_Phone .getText().trim();
-
         if (validateInput()) {
-            Customer customer = new Customer();
-            customer.setName(username);
-            customer.setEmail(email);
-            customer.setPassword(password);
-            customer.setPhone(Phone);
-
+            String username = SP_Name.getText().trim();
+            String email = SP_Email.getText().trim();
+            String password =  SP_Password.getText().trim();
+            String Phone = SP_Phone .getText().trim();
+            Customer customer = new Customer(username, email, Phone, password, Customer.MembershipStatus.REGULAR);
+            if (!Client.addCustomer(customer)) {
+                AlertBox.alert("Error", "Signup failed. Please try again.", "Close");
+                return;
+            }
             AlertBox.alert("Success", "Signup successful!", "Close");
             goToLoginPage(event);
         }

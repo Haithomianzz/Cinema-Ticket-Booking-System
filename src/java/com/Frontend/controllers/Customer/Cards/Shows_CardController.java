@@ -30,9 +30,9 @@ public class Shows_CardController {
 
 
     public void setData(Showtime show) throws IllegalArgumentException {
-        SC_Date.setText(show.getDate());
-        SC_Day.setText(show.getDay());
-        SC_Month.setText(show.getMonth());
+//        SC_Date.setText(show.getDate());
+//        SC_Day.setText(show.getDay());
+//        SC_Month.setText(show.getMonth());
         SC_Time.setText(show.getShowTime());
     }
 

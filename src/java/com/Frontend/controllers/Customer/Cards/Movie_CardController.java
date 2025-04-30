@@ -20,7 +20,7 @@ public class Movie_CardController {
     public void setDate(Movie movie) throws IllegalArgumentException {
         MC_Mname.setText(movie.getTitle());
         MC_Mrate.setText(movie.getRating().toString());
-        MC_Mimage.setImage(new ImageView( getClass().getResourceAsStream( movie.getImage() ) ));
+        MC_Mimage.setImage(new ImageView(String.valueOf(getClass().getResourceAsStream( movie.getImage() ))).getImage());
     }
 
     public void goToMovieDetailPage(ActionEvent event) throws IOException {

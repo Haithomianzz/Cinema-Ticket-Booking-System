@@ -1,15 +1,14 @@
 package com.Backend;
-
+import com.Frontend.Main;
+import org.javatuples.Triplet;
 import com.Backend.Dao.*;
 import com.Backend.Entities.*;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 public class Client implements Runnable {
     private static Connection connection;
 
@@ -19,7 +18,7 @@ public class Client implements Runnable {
     private static HashMap<Integer, Showtime> showtimeMap = new HashMap<>();
     private static HashMap<Integer, Hall> hallMap = new HashMap<>();
     private static HashMap<Integer, Seat> seatMap = new HashMap<>();
-    private static HashMap<Integer, Ticket> ticketMap = new HashMap<>();
+    private static HashMap<Triplet<Integer,Integer,Integer>, Ticket> ticketMap = new HashMap<>();
 
     public static Connection getConnection() { return connection; }
     public static HashMap<Integer, Customer> getCustomerMap() { return customerMap; }
@@ -28,7 +27,7 @@ public class Client implements Runnable {
     public static HashMap<Integer, Hall> getHallMap() { return hallMap; }
     public static HashMap<Integer, Showtime> getShowtimeMap() { return showtimeMap; }
     public static HashMap<Integer, Seat> getSeatMap() { return seatMap;}
-    public static HashMap<Integer, Ticket> getTicketMap() { return ticketMap; }
+    public static HashMap<Triplet<Integer,Integer,Integer>, Ticket> getTicketMap() { return ticketMap; }
 
     static {
         try {
@@ -47,11 +46,12 @@ public class Client implements Runnable {
             Future<HashMap<Integer, Customer>> customerFuture = executor.submit(() -> CustomerDAO.getAllCustomers(connection));
             Future<HashMap<Integer, Movie>> movieFuture = executor.submit(() -> MovieDAO.getAllMovies(connection));
             Future<HashMap<Integer, Hall>> hallFuture = executor.submit(() -> HallDAO.getAllHalls(connection));
+
             Future<HashMap<Integer, Booking>> bookingFuture = executor.submit(() -> BookingDAO.getAllBookings(connection, customerMap));
             Future<HashMap<Integer, Seat>> seatFuture = executor.submit(() -> SeatDAO.getAllSeats(connection, hallMap));
             Future<HashMap<Integer, Showtime>> showtimeFuture = executor.submit(() -> ShowtimeDAO.getAllShowtimes(connection, movieMap, hallMap));
             Future<Boolean> allocateSeatsFuture = executor.submit(() -> ShowtimeDAO.allocateSeats(connection, showtimeMap, seatMap));
-            Future<HashMap<Integer, Ticket>> ticketFuture = executor.submit(() -> TicketDAO.getAllTickets(connection, bookingMap, showtimeMap, seatMap));
+            Future<HashMap<Triplet<Integer,Integer,Integer>, Ticket>> ticketFuture = executor.submit(() -> TicketDAO.getAllTickets(connection, bookingMap, showtimeMap, seatMap));
             // Get max IDs to set static counters for automatic ID generation when inserting new records
             Future<Integer> maxCustomerIdFuture = executor.submit(() -> CustomerDAO.getMaxCustomerId(connection));
             Future<Integer> maxMovieIdFuture = executor.submit(() -> MovieDAO.getMaxMovieId(connection));
@@ -59,7 +59,6 @@ public class Client implements Runnable {
             Future<Integer> maxBookingIdFuture = executor.submit(() -> BookingDAO.getMaxBookingId(connection));
             Future<Integer> maxSeatIdFuture = executor.submit(() -> SeatDAO.getMaxSeatId(connection));
             Future<Integer> maxShowtimeIdFuture = executor.submit(() -> ShowtimeDAO.getMaxShowtimeId(connection));
-            Future<Integer> maxTicketIdFuture = executor.submit(() -> TicketDAO.getMaxTicketId(connection));
             // Wait for all futures to complete and retrieve the results to avoid blocking the main thread
             customerMap = customerFuture.get();
             movieMap = movieFuture.get();
@@ -77,7 +76,6 @@ public class Client implements Runnable {
             Booking.setBookingIdCounter(maxBookingIdFuture.get());
             Seat.setSeatIdCounter(maxSeatIdFuture.get());
             Showtime.setShowtimeIdCounter(maxShowtimeIdFuture.get());
-            Ticket.setTicketIdCounter(maxTicketIdFuture.get());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -117,7 +115,7 @@ public class Client implements Runnable {
     }
     public static boolean addTicket(Ticket ticket) {
         if (!TicketDAO.insertTicket(connection, ticket)) return false;
-        ticketMap.put(ticket.getTicketId(), ticket);
+        ticketMap.put(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()), ticket);
         return true;
     }
     public static boolean removeCustomer(Customer customer) {
@@ -129,7 +127,7 @@ public class Client implements Runnable {
                 booking.cancelBooking();
                 if (!booking.getTickets().isEmpty() && TicketDAO.deleteTicketByBooking(connection, booking)) {
                     for (Ticket ticket : booking.getTickets()) {
-                        ticketMap.remove(ticket.getTicketId());
+                        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();
                     }
                 }
@@ -146,7 +144,7 @@ public class Client implements Runnable {
                 showtime.cancelShowtime();
                 if (!showtime.getTickets().isEmpty() && TicketDAO.deleteTicketByShowtime(connection, showtime)) {
                     for (Ticket ticket : showtime.getTickets()) {
-                        ticketMap.remove(ticket.getTicketId());
+                        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();
                     }
                 }
@@ -163,7 +161,7 @@ public class Client implements Runnable {
                 showtime.cancelShowtime();
                 if (!showtime.getTickets().isEmpty() && TicketDAO.deleteTicketByShowtime(connection, showtime)) {
                     for (Ticket ticket : showtime.getTickets()) {
-                        ticketMap.remove(ticket.getTicketId());
+                        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();
                     }
                 }
@@ -183,7 +181,7 @@ public class Client implements Runnable {
         booking.cancelBooking();
         if (!booking.getTickets().isEmpty() && TicketDAO.deleteTicketByBooking(connection, booking)) {
             for (Ticket ticket : booking.getTickets()) {
-                ticketMap.remove(ticket.getTicketId());
+                ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
         }
@@ -195,7 +193,7 @@ public class Client implements Runnable {
         seat.removeSeat();
         if (!seat.getTickets().isEmpty() && TicketDAO.deleteTicketBySeat(connection, seat)) {
             for (Ticket ticket : seat.getTickets()) {
-                ticketMap.remove(ticket.getTicketId());
+                ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
         }
@@ -207,7 +205,7 @@ public class Client implements Runnable {
         showtime.cancelShowtime();
         if (!showtime.getTickets().isEmpty() && TicketDAO.deleteTicketByShowtime(connection, showtime)) {
             for (Ticket ticket : showtime.getTickets()) {
-                ticketMap.remove(ticket.getTicketId());
+                ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
         }
@@ -215,7 +213,7 @@ public class Client implements Runnable {
     }
     public static boolean removeTicket(Ticket ticket) {
         if (!TicketDAO.deleteTicket(connection, ticket)) return false;
-        ticketMap.remove(ticket.getTicketId());
+        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
         ticket.cancelTicket();
         return true;
     }
@@ -231,12 +229,47 @@ public class Client implements Runnable {
         }
     }
 
-    public boolean updateCustomer(Customer customer) { return CustomerDAO.updateCustomer(connection, customer); }
-    public boolean updateMovie(Movie movie) { return MovieDAO.updateMovie(connection, movie); }
-    public boolean updateHall(Hall hall) { return HallDAO.updateHall(connection, hall); }
-    public boolean updateBooking(Booking booking) { return BookingDAO.updateBooking(connection, booking); }
-    public boolean updateSeat(Seat seat) { return SeatDAO.updateSeat(connection, seat); }
-    public boolean updateShowtime(Showtime showtime) { return ShowtimeDAO.updateShowtime(connection, showtime); }
-    public boolean updateTicket(Ticket ticket) { return TicketDAO.updateTicket(connection, ticket); }
+    public static boolean verifyCredentials(String email, String password) {
+        Integer userid = AuthenticationDAO.authenticateUser(connection, email, password);
+        if (userid > 0) {
+            Main.setCurrentUser(customerMap.get(userid));
+            Main.setCurrentUserType(Main.UserType.CUSTOMER);
+            System.out.println("User authenticated successfully.");
+            return true;
+        } else if (userid == 0) {
+            Main.setCurrentUserType(Main.UserType.ADMIN);
+            System.out.println("Admin authenticated successfully.");
+            return true;
+        } else {
+            System.out.println("Error: Invalid email or password.");
+            return false;
+        }
+    }
+    public static boolean changePasswordAndEmail(String password, String email) {
+        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER && AuthenticationDAO.changePasswordAndEmail(connection, password, email, Main.getCurrentUser())) {
+            Main.getCurrentUser().setPassword(password);
+            Main.getCurrentUser().setEmail(email);
+            System.out.println("Password and email changed successfully.");
+            return true;
+        } else {
+            System.out.println("Error: Only customers can change their password and email.");
+            return false;
+        }
+    }
+    public static Customer getCustomerByEmail(String email) {
+        Integer customerId = AuthenticationDAO.getCustomerIdByEmail(connection, email);
+        if (customerId != null && customerMap.containsKey(customerId)) {
+            return customerMap.get(customerId);
+        }
+        return null;
+    }
+
+
+    public static boolean updateCustomer(Customer customer) { return CustomerDAO.updateCustomer(connection, customer); }
+    public static boolean updateMovie(Movie movie) { return MovieDAO.updateMovie(connection, movie); }
+    public static boolean updateHall(Hall hall) { return HallDAO.updateHall(connection, hall); }
+    public static boolean updateBooking(Booking booking) { return BookingDAO.updateBooking(connection, booking); }
+    public static boolean updateSeat(Seat seat) { return SeatDAO.updateSeat(connection, seat); }
+    public static boolean updateShowtime(Showtime showtime) { return ShowtimeDAO.updateShowtime(connection, showtime); }
 
 }

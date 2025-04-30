@@ -5,11 +5,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.Backend.Client;
+import com.Backend.Entities.Customer;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+    public enum UserType {
+        ADMIN, CUSTOMER, GUEST
+    }
+    private static UserType currentUserType = UserType.GUEST; // Default user type
+    private static Customer currentUser; // Store the current user
+    private static Client client; // Store the client
 
     private static Stage primaryStage; // Keep a reference to the primary stage
 
@@ -37,11 +45,35 @@ public class Main extends Application {
     // Consider moving data loading logic to separate service classes.
 
     public static void main(String[] args) {
+        // Initialize the client or any other necessary components here
+        client = new Client();
+        Thread clientThread = new Thread(client);
+        clientThread.setDaemon(true); // Set as daemon thread to exit when the application exits
+        clientThread.setName("Client Thread");
+        clientThread.start();
         launch(args);
     }
 
     // You might want to move Style constants to a separate interface or class
     // if not already done (as your original code imports Style)
+    public static void setCurrentUser(Customer user) {
+        currentUser = user;
+    }
+    public static Customer getCurrentUser() {
+        return currentUser;
+    }
+    public static void setClient(Client clientInstance) {
+        client = clientInstance;
+    }
+    public static Client getClient() {
+        return client;
+    }
+    public static void setCurrentUserType(UserType userType) {
+        currentUserType = userType;
+    }
+    public static UserType getCurrentUserType() {
+        return currentUserType;
+    }
 }
 
 

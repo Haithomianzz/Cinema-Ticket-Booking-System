@@ -3,6 +3,7 @@ package com.Frontend.controllers;
 import com.Backend.Entities.Customer;
 import com.Frontend.AlertBox;
 import com.Frontend.SceneController;
+import com.Backend.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -22,13 +23,18 @@ public class ForgotPassword_pageController {
     public void ChangePassword(ActionEvent event) throws IOException {
         String email = FP_Email.getText().trim();
         String password = FP_CPassword.getText().trim();
-        String CPassword = FP_Password.getText().trim();
-
         if (validateInput()) {
-            Customer customer = new Customer();
-            customer.setPassword(password);
-
-            AlertBox.alert("Success", "Password Changed successfully!", "Close");
+            Customer customer = Client.getCustomerByEmail(email);
+            if (customer == null) {
+                AlertBox.alert("Error", "Email not found. Please check and try again.", "Close");
+                return;
+            }
+            if (!Client.changePasswordAndEmail(password, email)) {
+                customer.setPassword(password);
+                AlertBox.alert("Error", "Failed to change password. Please try again.", "Close");
+                return;
+            }
+            AlertBox.alert("Success", "Password changed successfully!", "Close");
             goToLoginPage(event);
         }
     }

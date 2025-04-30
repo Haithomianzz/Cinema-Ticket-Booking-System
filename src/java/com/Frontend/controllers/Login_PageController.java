@@ -1,5 +1,6 @@
 package com.Frontend.controllers;
 
+import com.Backend.Client;
 import com.Backend.Entities.Customer;
 import com.Frontend.AlertBox;
 import com.Frontend.SceneController;
@@ -48,12 +49,15 @@ public class Login_PageController {
             return;
         }
 
-        Customer customer = userService.loginGUICustomer(username, password);
+        if (!Client.verifyCredentials(username, password)) {
+            AlertBox.alert("Login Failed", "Invalid username or password.", "Close");
+            return;
+        }
 
-        if (customer.getCustomerId() == 0) {
+        if (Main.getCurrentUserType() == Main.UserType.ADMIN) {
             System.out.println("Admin Login successful");
             goToAdminPage(event);
-        } else if (customer != null) {
+        } else if (Main.getCurrentUserType() == Main.UserType.CUSTOMER) {
             System.out.println("Customer Login successful");
             goToHomePage(event);
         } else {
@@ -73,13 +77,13 @@ public class Login_PageController {
     }
     @FXML
     void guest(ActionEvent event) throws IOException {
-        //customer = null;
+        Main.setCurrentUserType(Main.UserType.GUEST);
         goToHomePage(event);
     }
     @FXML
     void goToHomePage(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.SwitchToLogin(event);
+        sceneController.SwitchToHome(event);
     }
     @FXML
     void goToAdminPage(ActionEvent event) throws IOException {

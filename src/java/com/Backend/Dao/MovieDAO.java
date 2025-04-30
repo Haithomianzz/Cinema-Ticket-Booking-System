@@ -4,10 +4,7 @@ import com.Backend.Entities.Movie;
 
 import javax.print.attribute.ResolutionSyntax;
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,8 +13,8 @@ public class MovieDAO {
     private static final String GET_ALL_MOVIES = "SELECT * FROM movie";
     private static final String GET_MAX_MOVIE_ID = "SELECT MAX(movie_id) FROM customer";
     private static final String GET_GENRES_BY_MOVIE = "SELECT genre FROM movie_genre WHERE movie_id = ?";
-    private static final String INSERT_MOVIE = "INSERT INTO movie (title, duration, language, release_date, rating, description) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, duration = ?, language = ?, release_date = ?, rating = ?, description = ? WHERE movie_id = ?";
+    private static final String INSERT_MOVIE = "INSERT INTO movie (title, duration, language, release_date, rating, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, description = ?, rating = ?, language = ?, duration = ?, release_date = ?, ImageData = ? WHERE movie_id = ?";
     private static final String DELETE_MOVIE = "DELETE FROM movie WHERE movie_id = ?";
 
     public static int getMaxMovieId(Connection connection) {
@@ -45,6 +42,7 @@ public class MovieDAO {
                 ResultSet genreResultSet = genreStatement.executeQuery();
                 while (genreResultSet.next())
                     genres.add(Movie.Genre.valueOf(genreResultSet.getString(1).toUpperCase()));
+                byte[] imageData = movieResultSet.getBytes("ImageData");
                 movieMap.put(movieResultSet.getInt(1), new Movie(
                         movieResultSet.getInt(1),
                         movieResultSet.getString(2),
@@ -53,7 +51,8 @@ public class MovieDAO {
                         movieResultSet.getString(5),
                         movieResultSet.getInt(6),
                         movieResultSet.getString(7),
-                        genres
+                        genres,
+                        imageData
                 ));
             }
         } catch (Exception e) {
@@ -70,6 +69,15 @@ public class MovieDAO {
             preparedStatement.setString(4, movie.getReleaseDate().toString());
             preparedStatement.setFloat(5, movie.getRating());
             preparedStatement.setString(6, movie.getDescription());
+            byte[] imageData = movie.getImageData();
+            if (imageData != null && imageData.length > 0) {
+                preparedStatement.setBytes(7, imageData);
+                // Alternatively, for potentially large files (requires image data as InputStream):
+                // preparedStatement.setBinaryStream(7, new ByteArrayInputStream(imageData), imageData.length);
+            } else {
+                // If image is optional and the column allows NULLs
+                preparedStatement.setNull(7, Types.VARBINARY);
+            }
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,7 +94,17 @@ public class MovieDAO {
             preparedStatement.setString(4, movie.getReleaseDate().toString());
             preparedStatement.setFloat(5, movie.getRating());
             preparedStatement.setString(6, movie.getDescription());
-            preparedStatement.setInt(7, movie.getMovieId());
+            // Set image data (handle null)
+            byte[] imageData = movie.getImageData();
+            if (imageData != null && imageData.length > 0) {
+                preparedStatement.setBytes(7, imageData);
+                // Or: preparedStatement.setBinaryStream(7, new ByteArrayInputStream(imageData), imageData.length);
+            } else {
+                preparedStatement.setNull(7, Types.VARBINARY); // Allow clearing the image
+            }
+
+            // Set the movie ID for the WHERE clause
+            preparedStatement.setInt(8, movie.getMovieId());
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
