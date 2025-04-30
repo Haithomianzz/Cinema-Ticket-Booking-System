@@ -7,7 +7,6 @@ public class Customer {
 
     public enum MembershipStatus {
         REGULAR,
-        PREMIUM,
         VIP
     }
     private static int counterID = 0;

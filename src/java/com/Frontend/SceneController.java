@@ -38,26 +38,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToHome(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Home_Page.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void SwitchToShowCard(ActionEvent event) throws IOException {
-        // Similar note as Movie_Card.fxml - likely a component, not a full page scene.
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Shows_Card.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void SwitchToTicketCard(ActionEvent event) throws IOException {
-        // Similar note as Movie_Card.fxml - likely a component, not a full page scene.
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Ticket_Card.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/Home_Page.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -65,7 +46,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToMovies(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Movies_Page.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/Movies_Page.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -73,15 +54,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToMovieDetail(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/MovieDetail_Page.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void SwitchToMovieCard(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Movie_Card.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/MovieDetail_Page.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -89,15 +62,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToBookingPages(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Booking_Pages.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void SwitchToBookingForm(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Booking_Form.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/Booking_Pages.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -105,15 +70,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToTicketPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Ticket_Page.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void SwitchToShowForm(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Show_Form.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/Ticket_Page.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -121,7 +78,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToProfileForm(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Profile_Form.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Forms/Profile_Form.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -129,7 +86,7 @@ public class SceneController {
         stage.show();
     }
     public void SwitchToAdminDashboard(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AdminHallsSeats_Page.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Admin/Pages/AdminHallsSeats_Page.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

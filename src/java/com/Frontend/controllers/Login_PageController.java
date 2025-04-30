@@ -49,14 +49,13 @@ public class Login_PageController {
         }
 
         Customer customer = userService.loginGUICustomer(username, password);
-        Customer admin = userService.loginGUIAdmin(username, password);
 
-        if (customer != null) {
-            System.out.println("Customer Login successful");
-            goToHomePage(event);
-        } else if (admin != null) {
+        if (customer.getCustomerId() == 0) {
             System.out.println("Admin Login successful");
             goToAdminPage(event);
+        } else if (customer != null) {
+            System.out.println("Customer Login successful");
+            goToHomePage(event);
         } else {
             AlertBox.alert("Login Failed","Invalid username or password.","Close");
         }
