@@ -13,7 +13,7 @@ public class Seat {
 
     private ArrayList<Ticket> tickets = new ArrayList<>();
     public Seat(Hall hall, int rowNumber, int seatNumber) {
-        this.seatId = counterID++;
+        this.seatId = ++counterID;
         this.hall = hall;
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;

@@ -20,7 +20,7 @@ public class Customer {
     private ArrayList<Booking> bookings = new ArrayList<>();
 
     public Customer(String name, String email, String phone, String Password, MembershipStatus membership) {
-        this.customer_id = counterID++;
+        this.customer_id = ++counterID;
         this.name = name;
         this.email = email;
         this.phone_number = phone;

@@ -36,24 +36,24 @@ public class Login_PageController {
             AlertBox.alert("Error", "Username cannot be empty!", "Close");
             return;
         }
-        if (!username.matches("^[a-zA-Z0-9](?!.*[_.]{2})[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$")) {
-            AlertBox.alert("Invalid Username", "Please enter a valid username.", "Close");
-            return;
-        }
+//        if (!username.matches("^[a-zA-Z0-9](?!.*[_.]{2})[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$")) {
+//            AlertBox.alert("Invalid Username", "Please enter a valid username.", "Close");
+//            return;
+//        }
         if (password.isEmpty()) {
             AlertBox.alert( "Error", "Password cannot be empty!","Close");
             return;
         }
-        if (password.length() < 8) {
-            AlertBox.alert("Invalid Password", "Password must be at least 8 characters long.", "Close");
-            return;
-        }
+//        if (password.length() < 8) {
+//            AlertBox.alert("Invalid Password", "Password must be at least 8 characters long.", "Close");
+//            return;
+//        }
 
         if (!Client.verifyCredentials(username, password)) {
             AlertBox.alert("Login Failed", "Invalid username or password.", "Close");
             return;
         }
-
+        // Set the current user
         if (Main.getCurrentUserType() == Main.UserType.ADMIN) {
             System.out.println("Admin Login successful");
             goToAdminPage(event);

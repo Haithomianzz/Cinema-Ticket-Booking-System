@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class BookingDAO {
     private static final String GET_MAX_BOOKING_ID = "SELECT MAX(booking_id) FROM booking";
-    private static final String GET_ALL_BOOKINGS = "SELECT * FROM booking";
+    private static final String GET_ALL_BOOKINGS = "SELECT booking_id, customer_id, total_price, booking_date, booking_status FROM booking";
 //    private static final String GET_BOOKING_BY_ID = "SELECT * FROM booking WHERE booking_id = ?";
     private static final String INSERT_BOOKING = "INSERT INTO booking (customer_id, total_price, booking_date, booking_status) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_BOOKING = "UPDATE booking SET customer_id = ?, total_price = ?, booking_date = ?, booking_status = ? WHERE booking_id = ?";

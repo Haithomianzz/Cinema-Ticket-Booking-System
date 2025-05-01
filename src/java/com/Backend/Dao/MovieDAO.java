@@ -10,12 +10,13 @@ import java.util.HashMap;
 
 public class MovieDAO {
     // private static final String GET_MOVIE_BY_ID = "SELECT * FROM movie WHERE movie_id = ?";
-    private static final String GET_ALL_MOVIES = "SELECT * FROM movie";
-    private static final String GET_MAX_MOVIE_ID = "SELECT MAX(movie_id) FROM customer";
+    private static final String GET_ALL_MOVIES = "SELECT movie_id, title, description, rating, language, duration, release_date, image FROM movie";
+    private static final String GET_MAX_MOVIE_ID = "SELECT MAX(movie_id) FROM movie";
     private static final String GET_GENRES_BY_MOVIE = "SELECT genre FROM movie_genre WHERE movie_id = ?";
     private static final String INSERT_MOVIE = "INSERT INTO movie (title, duration, language, release_date, rating, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, description = ?, rating = ?, language = ?, duration = ?, release_date = ?, ImageData = ? WHERE movie_id = ?";
     private static final String DELETE_MOVIE = "DELETE FROM movie WHERE movie_id = ?";
+    private static final String DELETE_MOVIE_FROM_GENRE = "DELETE FROM movie_genre WHERE movie_id = ?";
 
     public static int getMaxMovieId(Connection connection) {
         try {
@@ -42,7 +43,7 @@ public class MovieDAO {
                 ResultSet genreResultSet = genreStatement.executeQuery();
                 while (genreResultSet.next())
                     genres.add(Movie.Genre.valueOf(genreResultSet.getString(1).toUpperCase()));
-                byte[] imageData = movieResultSet.getBytes("ImageData");
+                byte[] imageData = movieResultSet.getBytes("image");
                 movieMap.put(movieResultSet.getInt(1), new Movie(
                         movieResultSet.getInt(1),
                         movieResultSet.getString(2),
@@ -116,7 +117,11 @@ public class MovieDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MOVIE);
             preparedStatement.setInt(1, movie.getMovieId());
-            return preparedStatement.executeUpdate() > 0;
+            preparedStatement.executeUpdate();
+            PreparedStatement genreStatement = connection.prepareStatement(DELETE_MOVIE_FROM_GENRE);
+            genreStatement.setInt(1, movie.getMovieId());
+            genreStatement.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }

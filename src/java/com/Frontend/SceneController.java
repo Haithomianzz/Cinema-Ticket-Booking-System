@@ -1,11 +1,15 @@
 package com.Frontend;
 
+import com.Backend.Entities.Movie;
+import com.Frontend.controllers.Customer.Pages.MovieDetail_PageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 
 public class SceneController {
@@ -53,9 +57,14 @@ public class SceneController {
         stage.setScene(scene);
         stage.show();
     }
-    public void SwitchToMovieDetail(ActionEvent event) throws IOException {
+    public void SwitchToMovieDetail(MouseEvent event, Movie movie) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Customer/Pages/MovieDetail_Page.fxml"));
         Parent root = loader.load();
+
+        // Pass the movie object to the MovieDetail_PageController
+        MovieDetail_PageController controller = loader.getController();
+        controller.setMovie(movie);
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

@@ -12,7 +12,7 @@ public class Hall {
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
     public Hall(int numberOfSeats) {
-        this.hallNumber = counterID++;
+        this.hallNumber = ++counterID;
         this.numberOfSeats = numberOfSeats;
     }
     public Hall(int hallNumber, int numberOfSeats) {

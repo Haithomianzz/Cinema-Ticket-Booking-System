@@ -12,13 +12,15 @@ module com.company {
     requires javatuples;
     requires org.controlsfx.controls;
     opens com.Frontend to javafx.fxml;
+
     opens com.Backend.Entities to javafx.base;
     opens com.Frontend.controllers to javafx.fxml;
     opens com.Frontend.controllers.Customer.Pages to javafx.fxml;
-
+    opens com.Frontend.controllers.Customer.Cards to javafx.fxml; // Fix applied here
     exports com.Backend.Dao;
     opens com.Backend.Dao to javafx.fxml;
     opens com.Backend to javafx.fxml;
     exports com.Frontend;
     exports com.Backend;
+
 }

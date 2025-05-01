@@ -23,7 +23,7 @@ public class Booking {
     private ArrayList<Ticket> tickets = new ArrayList<>();
 
     public Booking(Customer customer, double totalPrice, Date bookingDate, String bookingStatus) {
-        this.bookingID = counterID++;
+        this.bookingID = ++counterID;
         this.customer = customer;
         this.totalPrice = totalPrice;
         this.bookingDate = bookingDate;

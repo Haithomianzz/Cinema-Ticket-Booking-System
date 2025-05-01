@@ -30,10 +30,10 @@ public class ForgotPassword_pageController {
                 return;
             }
             if (!Client.changePasswordAndEmail(password, email)) {
-                customer.setPassword(password);
                 AlertBox.alert("Error", "Failed to change password. Please try again.", "Close");
                 return;
             }
+            customer.setPassword(password);
             AlertBox.alert("Success", "Password changed successfully!", "Close");
             goToLoginPage(event);
         }

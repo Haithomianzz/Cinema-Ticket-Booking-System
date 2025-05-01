@@ -4,7 +4,7 @@ import com.Frontend.Date;
 public class Movie {
 
 
-    public enum Genre { ACTION, COMEDY, DRAMA, HORROR, ROMANCE, SCI_FI, THRILLER, ANIMATION, DOCUMENTARY }
+    public enum Genre { ACTION, ADVENTURE, COMEDY, CRIME, DRAMA, HORROR, ROMANCE, SCI_FI, THRILLER, ANIMATION, DOCUMENTARY }
     public enum Language { ENGLISH, SPANISH, FRENCH, GERMAN, MANDARIN, JAPANESE, HINDI, ARABIC }
 
     private static int counterID = 0;
@@ -24,7 +24,7 @@ public class Movie {
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
     public Movie(String title, String description, Float rating, String language, int duration, String releaseDate, ArrayList<Genre> genres, byte[] imageData) {
-        this.movieId = counterID++;
+        this.movieId = ++counterID;
         this.title = title;
         this.description = description;
         this.rating = rating;

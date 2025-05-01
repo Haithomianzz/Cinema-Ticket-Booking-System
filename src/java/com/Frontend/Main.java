@@ -17,7 +17,6 @@ public class Main extends Application {
     }
     private static UserType currentUserType = UserType.GUEST; // Default user type
     private static Customer currentUser; // Store the current user
-    private static Client client; // Store the client
 
     private static Stage primaryStage; // Keep a reference to the primary stage
 
@@ -46,7 +45,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         // Initialize the client or any other necessary components here
-        client = new Client();
+        Client client = new Client();
         Thread clientThread = new Thread(client);
         clientThread.setDaemon(true); // Set as daemon thread to exit when the application exits
         clientThread.setName("Client Thread");
@@ -61,12 +60,6 @@ public class Main extends Application {
     }
     public static Customer getCurrentUser() {
         return currentUser;
-    }
-    public static void setClient(Client clientInstance) {
-        client = clientInstance;
-    }
-    public static Client getClient() {
-        return client;
     }
     public static void setCurrentUserType(UserType userType) {
         currentUserType = userType;

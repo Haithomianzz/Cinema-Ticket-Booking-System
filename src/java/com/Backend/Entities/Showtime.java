@@ -20,7 +20,7 @@ public class Showtime {
 
 
     public Showtime(Movie movie, Hall hall, Date showDate, String showTime, int pricePerSeat) {
-        this.showtimeId = counterID++;
+        this.showtimeId = ++counterID;
         this.movie = movie;
         this.hall = hall;
         this.seatsAvailable = (hall.getSeats().isEmpty()) ? new ArrayList<>(hall.getSeats()) : hall.getSeats();

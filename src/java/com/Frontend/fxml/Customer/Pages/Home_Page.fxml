@@ -38,7 +38,7 @@
                 <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="30.0" prefWidth="6.0" />
                 <AnchorPane prefHeight="60.0" prefWidth="274.0">
                     <children>
-                        <TextField layoutY="15.0" prefHeight="30.0" prefWidth="268.0" promptText="Search" style="-fx-background-color: transparent; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #000000;" />
+                        <TextField fx:id="HP_Search" layoutY="15.0" prefHeight="30.0" prefWidth="268.0" promptText="Search" style="-fx-background-color: transparent; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #000000;" />
                   <ImageView fitHeight="16.0" fitWidth="13.0" layoutX="247.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../resources/searchicon.png" />

@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class ShowtimeDAO {
     //    private static final String GET_SHOWTIME_BY_ID = "SELECT * FROM showtime WHERE showtime_id = ?";
-    private static final String GET_ALL_SHOWTIMES = "SELECT * FROM showtime";
+    private static final String GET_ALL_SHOWTIMES = "SELECT showtime_id, movie_id, hall_number, show_date, show_time, price_per_seat FROM showtime";
     private static final String GET_MAX_SHOWTIME_ID = "SELECT MAX(showtime_id) FROM showtime";
     private static final String GET_RESERVED_SEATS = "SELECT showtime_id, seat_id FROM Show_seats";
     private static final String INSERT_SHOWTIME = "INSERT INTO showtime (movie_id, hall_number, show_date, show_time, price_per_seat) VALUES (?, ?, ?, ?, ?)";
