@@ -17,21 +17,30 @@ public class Ticket_CardController {
     @FXML
     private Label TC_Hall;
     @FXML
-    private Label TC_Seat;
+    private Label TC_SeatN;
+    @FXML
+    private Label TC_SeatR;
     @FXML
     private Label TC_Price;
     @FXML
     private ImageView TC_QrCode;
 
     public void setData(Ticket ticket) throws IllegalArgumentException {
+
+        String time = ticket.getShowtime().getShowTime();
+        int hour = Integer.parseInt(time.substring(0, 2));
+        String period = hour >= 12 ? "PM" : "AM";
+        hour = (hour > 12) ? hour - 12 : (hour == 0 ? 12 : hour);
+        String formattedTime = String.format("%d:%s %s", hour, time.substring(3, 5), period);
+
         TC_Title.setText(ticket.getShowtime().getMovie().getTitle());
         TC_Date.setText(ticket.getShowtime().getShowDate().toString());
-        TC_Time.setText(ticket.getShowtime().getShowTime());
+        TC_Time.setText(formattedTime);
         TC_Hall.setText(Integer.toString(ticket.getShowtime().getHall().getHallNumber()));
-        TC_Seat.setText(Integer.toString(ticket.getSeat().getSeatNumber()));
+        TC_SeatN.setText(Integer.toString(ticket.getSeat().getSeatNumber()));
+        TC_SeatR.setText(Integer.toString(ticket.getSeat().getRowNumber()));
         TC_Price.setText(Integer.toString(ticket.getShowtime().getPricePerSeat()));
         TC_QrCode.setImage(new Image(getClass().getResourceAsStream( "/com/Frontend/resources/qr.jpeg" )));
-        //TC_QrCode.setImage(new Image(getClass().getResourceAsStream( ticket.getQrCode() )));;
     }
 
 }

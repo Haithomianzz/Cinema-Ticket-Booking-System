@@ -49,17 +49,24 @@ public class Show_FormController {
     }
 
     public void setData(Showtime showtime) {
+        this.showtime = showtime;
         Hall hall = showtime.getHall();
+
+        String time = showtime.getShowTime();
+        int hour = Integer.parseInt(time.substring(0, 2));
+        String period = hour >= 12 ? "PM" : "AM";
+        hour = (hour > 12) ? hour - 12 : (hour == 0 ? 12 : hour);
+        String formattedTime = String.format("%d:%s %s", hour, time.substring(3, 5), period);
 
         for (Ticket ticket : showtime.getTickets()) {
             int row = ticket.getSeat().getRowNumber() - 1; // Adjust for 1-indexed data
             int col = ticket.getSeat().getSeatNumber() - 1; // Adjust for 1-indexed data
             ((MaterialIconView) gridSeats.getChildren().get(row * 6 + col)).setFill(javafx.scene.paint.Color.web("#c9b3b3"));
         }
-        this.showtime = showtime;
+
         BF_Title.setText(showtime.getMovie().getTitle());
         BF_Date.setText(showtime.getShowDate().toString());
-        BF_Time.setText(showtime.getShowTime());
+        BF_Time.setText(formattedTime);
         BF_Discount.setText((Customer.MembershipStatus.valueOf(Main.getCurrentUser().getMembership().toString()).ordinal() * 10) + "%");
         BF_PSeat.setText(String.valueOf(showtime.getPricePerSeat()));
         availableSeatsLabel.setText("Available Seats: " + showtime.getAvailableSeats().size());

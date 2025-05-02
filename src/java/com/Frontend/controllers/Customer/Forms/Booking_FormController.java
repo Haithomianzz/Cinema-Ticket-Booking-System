@@ -36,24 +36,32 @@ public class Booking_FormController {
 
     public void setData(Booking booking) throws IllegalArgumentException {
         this.booking = booking;
+
         Showtime showtime = booking.getTickets().getFirst().getShowtime();
         Movie movie = showtime.getMovie();
+        Booking.BookingStatus Status = booking.getBookingStatus();
+        String seats = "";
+
+        String time = showtime.getShowTime();
+        int hour = Integer.parseInt(time.substring(0, 2));
+        String period = hour >= 12 ? "PM" : "AM";
+        hour = (hour > 12) ? hour - 12 : (hour == 0 ? 12 : hour);
+        String formattedTime = String.format("%d:%s %s", hour, time.substring(3, 5), period);
+
         BF_Date.setText(booking.getBookingDate().toString());
         BF_Title.setText(movie.getTitle());
-        Booking.BookingStatus Status = booking.getBookingStatus();
         BF_Hall.setText(String.valueOf(showtime.getHall().getHallNumber()));
         BF_SDate.setText(showtime.getShowDate().toString());
-        BF_STIME.setText(showtime.getShowTime());
+        BF_STIME.setText(formattedTime);
         BF_SPrice.setText(String.valueOf(showtime.getPricePerSeat()));
-        String seats = "";
-//        Integer totalPrice = 0;
+
         for (int i = 0; i < booking.getTickets().size(); i++) {
             seats += booking.getTickets().get(i).getSeat().getSeatNumber();
-//            totalPrice += booking.getTickets().get(i).getShowtime().getPricePerSeat();
             if (i != booking.getTickets().size() - 1) {
                 seats += ", ";
             }
         }
+
         BF_Seats.setText(seats);
         BF_TPrice.setText(String.valueOf(booking.getTotalPrice()));
         BF_Status.setText(booking.getBookingStatus().toString());
