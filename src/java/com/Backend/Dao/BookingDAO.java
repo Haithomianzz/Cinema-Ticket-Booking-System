@@ -13,6 +13,7 @@ public class BookingDAO {
     private static final String GET_MAX_BOOKING_ID = "SELECT MAX(booking_id) FROM booking";
     private static final String GET_ALL_BOOKINGS = "SELECT booking_id, customer_id, total_price, booking_date, booking_status FROM booking";
 //    private static final String GET_BOOKING_BY_ID = "SELECT * FROM booking WHERE booking_id = ?";
+    private static final String CONFIRM_BOOKING = "UPDATE booking SET booking_status = 'CONFIRMED' WHERE booking_id = ?";
     private static final String INSERT_BOOKING = "INSERT INTO booking (customer_id, total_price, booking_date, booking_status) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_BOOKING = "UPDATE booking SET customer_id = ?, total_price = ?, booking_date = ?, booking_status = ? WHERE booking_id = ?";
     private static final String DELETE_BOOKING = "DELETE FROM booking WHERE booking_id = ?";
@@ -45,7 +46,6 @@ public class BookingDAO {
                         new Date(resultSet.getString(4)),
                         resultSet.getString(5)
                 );
-                customer.addBooking(booking);
                 bookingMap.put(booking.getBookingId(), booking);
             }
         }catch (Exception e) {
@@ -91,6 +91,17 @@ public class BookingDAO {
             e.printStackTrace();
         }
         System.err.println("Failed to delete booking");
+        return false;
+    }
+    public static boolean confirmBooking(Connection connection, Booking booking){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(CONFIRM_BOOKING);
+            preparedStatement.setInt(1, booking.getBookingId());
+            return preparedStatement.executeUpdate() > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.err.println("Failed to confirm booking");
         return false;
     }
     public static boolean deleteBookingsByCustomer(Connection connection, Customer customer){

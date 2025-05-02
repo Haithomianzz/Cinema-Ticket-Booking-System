@@ -10,11 +10,12 @@ import java.util.HashMap;
 
 public class HallDAO {
 //    private static final String GET_HALL_BY_ID = "SELECT * FROM hall WHERE hall_number = ?";
-    private static final String GET_ALL_HALLS = "SELECT * FROM hall";
+    private static final String GET_ALL_HALLS = "SELECT hall_number FROM hall";
     private static final String GET_MAX_HALL_ID = "SELECT MAX(hall_number) FROM hall";
     private static final String INSERT_HALL = "INSERT INTO hall (number_of_seats) VALUES (?)";
     private static final String UPDATE_HALL = "UPDATE hall SET number_of_seats = ? WHERE hall_number = ?";
     private static final String DELETE_HALL = "DELETE FROM hall WHERE hall_number = ?";
+    private static final String INSERT_HALL_PROCEDURE = "EXEC createHallseats ?";
 
     public static int getMaxHallId(Connection connection){
         try {
@@ -35,10 +36,7 @@ public class HallDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_HALLS);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                hallMap.put(resultSet.getInt(1), new Hall(
-                        resultSet.getInt(1),
-                        resultSet.getInt(2)
-                ));
+                hallMap.put(resultSet.getInt(1), new Hall(resultSet.getInt(1)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +45,7 @@ public class HallDAO {
     }
     public static boolean insertHall(Connection connection, Hall hall) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_HALL);
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_HALL_PROCEDURE);
             preparedStatement.setInt(1, hall.getNumberOfSeats());
             return preparedStatement.executeUpdate() > 0;
         } catch (Exception e) {
@@ -56,18 +54,18 @@ public class HallDAO {
         System.err.println("Failed to insert hall");
         return false;
     }
-    public static boolean updateHall(Connection connection, Hall hall) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HALL);
-            preparedStatement.setInt(1, hall.getNumberOfSeats());
-            preparedStatement.setInt(2, hall.getHallNumber());
-            return preparedStatement.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.err.println("Failed to update hall");
-        return false;
-    }
+//    public static boolean updateHall(Connection connection, Hall hall) {
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HALL);
+//            preparedStatement.setInt(1, hall.getNumberOfSeats());
+//            preparedStatement.setInt(2, hall.getHallNumber());
+//            return preparedStatement.executeUpdate() > 0;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.err.println("Failed to update hall");
+//        return false;
+//    }
     public static boolean deleteHall(Connection connection, Hall hall) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HALL);

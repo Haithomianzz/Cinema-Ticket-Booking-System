@@ -48,8 +48,8 @@ public class ShowtimeDAO {
                 Showtime showtime = new Showtime(resultSet.getInt(1), movie, hall, resultSet.getString(4),
                         resultSet.getString(5), resultSet.getInt(6));
                 showtimeMap.put(resultSet.getInt(1), showtime);
-                movie.addShowtime(showtime);
-                hall.addShowtime(showtime);
+//                movie.addShowtime(showtime);
+//                hall.addShowtime(showtime);
             }
         }catch (Exception e) {
             e.printStackTrace();

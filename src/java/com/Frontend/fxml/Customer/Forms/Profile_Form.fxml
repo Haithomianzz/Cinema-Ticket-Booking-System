@@ -18,8 +18,8 @@
                   <Image url="@../../../resources/User2.png" />
                </image>
             </ImageView>
-            <Button layoutX="124.0" layoutY="517.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="blueButton" stylesheets="@../../Styles.css" text="Save" />
-            <Button layoutX="245.0" layoutY="517.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="blueButton" stylesheets="@../../Styles.css" text="Cancel" />
+            <Button layoutX="124.0" layoutY="517.0" mnemonicParsing="false" onAction="#updateData" prefHeight="45.0" prefWidth="100.0" styleClass="blueButton" stylesheets="@../../Styles.css" text="Save" />
+            <Button layoutX="245.0" layoutY="517.0" mnemonicParsing="false" onAction="#close" prefHeight="45.0" prefWidth="100.0" styleClass="blueButton" stylesheets="@../../Styles.css" text="Cancel" />
             <Label layoutX="105.0" layoutY="365.0" prefHeight="30.0" prefWidth="100.0" text="Password : ">
                <font>
                   <Font size="20.0" />
@@ -44,12 +44,12 @@
                </font>
             </Label>
             <TextField fx:id="PF_Phone" layoutX="219.0" layoutY="312.0" prefHeight="25.0" prefWidth="177.0" />
-            <Label layoutX="100.0" layoutY="433.0" prefHeight="30.0" prefWidth="211.0" text=" Membership status :">
+            <Label layoutX="100.0" layoutY="433.0" prefHeight="30.0" prefWidth="138.0" text=" Membership :">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="PF_Membership" layoutX="337.0" layoutY="433.0" prefHeight="30.0" prefWidth="57.0" text="VIP">
+            <Label fx:id="PF_Membership" layoutX="230.0" layoutY="434.0" prefHeight="30.0" prefWidth="168.0" text="VIP">
                <font>
                   <Font size="20.0" />
                </font>

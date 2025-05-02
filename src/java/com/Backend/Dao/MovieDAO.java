@@ -14,6 +14,7 @@ public class MovieDAO {
     private static final String GET_MAX_MOVIE_ID = "SELECT MAX(movie_id) FROM movie";
     private static final String GET_GENRES_BY_MOVIE = "SELECT genre FROM movie_genre WHERE movie_id = ?";
     private static final String INSERT_MOVIE = "INSERT INTO movie (title, duration, language, release_date, rating, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_MOVIE_GENRE = "INSERT INTO movie_genre (movie_id, genre) VALUES (?, ?)";
     private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, description = ?, rating = ?, language = ?, duration = ?, release_date = ?, ImageData = ? WHERE movie_id = ?";
     private static final String DELETE_MOVIE = "DELETE FROM movie WHERE movie_id = ?";
     private static final String DELETE_MOVIE_FROM_GENRE = "DELETE FROM movie_genre WHERE movie_id = ?";
@@ -70,6 +71,12 @@ public class MovieDAO {
             preparedStatement.setString(4, movie.getReleaseDate().toString());
             preparedStatement.setFloat(5, movie.getRating());
             preparedStatement.setString(6, movie.getDescription());
+            for (Movie.Genre genre : movie.getGenres()) {
+                PreparedStatement genreStatement = connection.prepareStatement(INSERT_MOVIE_GENRE);
+                genreStatement.setInt(1, movie.getMovieId());
+                genreStatement.setString(2, genre.toString().toUpperCase());
+                genreStatement.executeUpdate();
+            }
             byte[] imageData = movie.getImageData();
             if (imageData != null && imageData.length > 0) {
                 preparedStatement.setBytes(7, imageData);

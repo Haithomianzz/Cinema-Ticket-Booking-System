@@ -76,7 +76,7 @@ public class Movie {
     public void setRating(Float rating) { this.rating = rating; }
     public void setDescription(String description) { this.description = description; }
     public void setImageData(byte[] imageData) { this.imageData = imageData; }
-
+    public void setGenres(ArrayList<Genre> genres) { this.genres = genres; }
     public void addShowtime(Showtime showtime) {
         showtimes.add(showtime);
     }

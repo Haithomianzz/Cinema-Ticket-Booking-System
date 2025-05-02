@@ -49,13 +49,13 @@
                 </AnchorPane>
                 <HBox alignment="CENTER" prefHeight="60.0" prefWidth="478.0" spacing="15.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Home" />
+                        <Button mnemonicParsing="false" onAction="#goToHomePage" style="-fx-background-color: #ffffff;" text="Home" />
                         <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Movies" />
+                        <Button mnemonicParsing="false" onAction="#goToMoviesPage" style="-fx-background-color: #ffffff;" text="Movies" />
                         <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Bookings" />
+                        <Button mnemonicParsing="false" onAction="#goToBookingPage" style="-fx-background-color: #ffffff;" text="Bookings" />
                         <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="20.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: #ffffff;" text="Tickets" />
+                        <Button mnemonicParsing="false" onAction="#goToTicketPage" style="-fx-background-color: #ffffff;" text="Tickets" />
                     </children>
                     <HBox.margin>
                         <Insets />
@@ -71,12 +71,12 @@
                                 <Font name="Microsoft Sans Serif" size="13.0" />
                             </font>
                         </Label>
-                        <ImageView fx:id="C_Profile" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#goToProfilePage" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../resources/User.png" />
                             </image>
                         </ImageView>
-                  <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="94.0" style="-fx-background-color: red;" styleClass="blueButton" stylesheets="@../../Styles.css" text="Logout">
+                  <Button mnemonicParsing="false" onAction="#goToLoginPage" prefHeight="46.0" prefWidth="94.0" style="-fx-background-color: red;" styleClass="blueButton" stylesheets="@../../Styles.css" text="Logout">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -102,7 +102,11 @@
                                 <Font size="25.0" />
                             </font>
                         </Label>
-                        <ScrollPane fx:id="TP_MList" layoutX="21.0" layoutY="58.0" prefHeight="634.0" prefWidth="1084.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
+                  <ScrollPane fx:id="TP_MList" layoutX="22.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="65.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
                     </children>
                 </AnchorPane>
             </children>
@@ -119,7 +123,7 @@
                             </font>
                         </Label>
                         <Separator layoutX="25.0" layoutY="53.0" maxWidth="-Infinity" prefHeight="5.0" prefWidth="141.0" />
-                        <VBox fx:id="TP_Slist" layoutX="25.0" layoutY="58.0" prefHeight="633.0" prefWidth="141.0" AnchorPane.bottomAnchor="12.0" />
+                        <VBox fx:id="TP_Slist" layoutX="25.0" layoutY="58.0" prefHeight="633.0" prefWidth="141.0" spacing="20.0" AnchorPane.bottomAnchor="12.0" />
                     </children>
                 </AnchorPane>
             </children>

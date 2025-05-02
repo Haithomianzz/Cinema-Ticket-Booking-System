@@ -23,6 +23,7 @@ public class Ticket {
     public void cancelTicket() {
         booking.removeTicket(this);
         showtime.removeTicket(this);
+        showtime.getAvailableSeats().add(seat);
         seat.removeTicket(this);
     }
     @Override
