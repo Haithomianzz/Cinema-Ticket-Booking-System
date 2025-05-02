@@ -114,7 +114,6 @@ public class Client implements Runnable {
                     if (count >= hall.getNumberOfSeats()) break;
                     count++;
                     Seat seat = new Seat(hall, i, j);
-                    hall.addSeat(seat);
                     seatMap.put(seat.getSeatId(), seat);
                 }
             }
@@ -145,7 +144,8 @@ public class Client implements Runnable {
         if (!CustomerDAO.deleteCustomer(connection, customer)) return false;
         customerMap.remove(customer.getCustomerId());
         if (!customer.getBookings().isEmpty()) {
-            for (Booking booking : customer.getBookings()) {
+            ArrayList<Booking> bookings = new ArrayList<>(customer.getBookings()) ;
+            for (Booking booking : bookings) {
                 bookingMap.remove(booking.getBookingId());
                 booking.cancelBooking();
                 if (!booking.getTickets().isEmpty()) {
@@ -162,11 +162,13 @@ public class Client implements Runnable {
         if (!MovieDAO.deleteMovie(connection, movie)) return false;
         movieMap.remove(movie.getMovieId());
         if (!movie.getShowtimes().isEmpty()) {
-            for (Showtime showtime : movie.getShowtimes()) {
+            ArrayList<Showtime> showtimes = new ArrayList<>(movie.getShowtimes()) ;
+            for (Showtime showtime : showtimes) {
                 showtimeMap.remove(showtime.getShowtimeId());
                 showtime.cancelShowtime();
                 if (!showtime.getTickets().isEmpty()) {
-                    for (Ticket ticket : showtime.getTickets()) {
+                    ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets()) ;
+                    for (Ticket ticket : tickets) {
                         ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();
                     }
@@ -178,24 +180,27 @@ public class Client implements Runnable {
     public static boolean removeHall(Hall hall) {
         if (!HallDAO.deleteHall(connection, hall)) return false;
         hallMap.remove(hall.getHallNumber());
-        if (!hall.getShowtimes().isEmpty()) {
-            for (Showtime showtime : hall.getShowtimes()) {
-                showtimeMap.remove(showtime.getShowtimeId());
-                showtime.cancelShowtime();
-                if (!showtime.getTickets().isEmpty()) {
-                    for (Ticket ticket : showtime.getTickets()) {
-                        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
-                        ticket.cancelTicket();
-                    }
-                }
-            }
-        }
         if (!hall.getSeats().isEmpty()) {
             for (Seat seat : hall.getSeats()) {
                 seatMap.remove(seat.getSeatId());
                 seat.removeSeat();
             }
         }
+        if (!hall.getShowtimes().isEmpty()) {
+            ArrayList<Showtime> showtimes = new ArrayList<>(hall.getShowtimes()) ;
+            for (Showtime showtime : showtimes) {
+                showtimeMap.remove(showtime.getShowtimeId());
+                showtime.cancelShowtime();
+                if (!showtime.getTickets().isEmpty()) {
+                    ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets()) ;
+                    for (Ticket ticket : tickets) {
+                        ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
+                        ticket.cancelTicket();
+                    }
+                }
+            }
+        }
+
         return true;
     }
     public static boolean removeBooking(Booking booking) {
@@ -203,7 +208,8 @@ public class Client implements Runnable {
         bookingMap.remove(booking.getBookingId());
         booking.cancelBooking();
         if (!booking.getTickets().isEmpty()) {
-            for (Ticket ticket : booking.getTickets()) {
+            ArrayList<Ticket> tickets = new ArrayList<>(booking.getTickets()) ;
+            for (Ticket ticket : tickets) {
                 ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
@@ -215,7 +221,8 @@ public class Client implements Runnable {
         seatMap.remove(seat.getSeatId());
         seat.removeSeat();
         if (!seat.getTickets().isEmpty()) {
-            for (Ticket ticket : seat.getTickets()) {
+            ArrayList<Ticket> tickets = new ArrayList<>(seat.getTickets()) ;
+            for (Ticket ticket : tickets) {
                 ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
@@ -227,7 +234,8 @@ public class Client implements Runnable {
         showtimeMap.remove(showtime.getShowtimeId());
         showtime.cancelShowtime();
         if (!showtime.getTickets().isEmpty()) {
-            for (Ticket ticket : showtime.getTickets()) {
+            ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets()) ;
+            for (Ticket ticket : tickets) {
                 ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                 ticket.cancelTicket();
             }
@@ -238,7 +246,6 @@ public class Client implements Runnable {
         if (!TicketDAO.deleteTicket(connection, ticket)) return false;
         ticket.cancelTicket();
         ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
-        ticket.cancelTicket();
         return true;
     }
     public static void closeConnection() {
@@ -296,7 +303,7 @@ public class Client implements Runnable {
         return false;
     }
     public static Boolean cancelBooking(Booking booking) {
-        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER && TicketDAO.deleteTicketByBooking(connection, booking)) {
+        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER && BookingDAO.cancelBooking(connection, booking)) {
             ArrayList<Ticket> tickets = new ArrayList<>(booking.getTickets()) ;
             for (Ticket ticket : tickets) {
                 ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));

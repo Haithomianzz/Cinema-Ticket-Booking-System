@@ -37,24 +37,11 @@ public class AdminHall_FormController {
         if( Nseats>0 && Nseats <19) {
             Hall newHall = new Hall();
             if (!Client.addHall(newHall)) {
-                ;
                 AlertBox.alert("Error", "Hall already exists!", "Close");
-                return;
             }
-            for (int r = 1; r <= 3; r++) {
-                for (int c = 1; c <= 6; c++) {
-                    if (Nseats == 0) {
-                        AlertBox.alert("Success", "Successfully added all seats!", "Close");
-                        return;
-                    }
-                    Seat seat = new Seat(newHall, r, c);
-                    if (!Client.addSeat(seat)) {
-                        AlertBox.alert("Error", "Seat already exists!", "Close");
-                        return;
-                    }
-                    Nseats--;
-                }
-            }
+            AlertBox.alert("Success", "Hall added successfully!", "Close");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
         }
     }
 

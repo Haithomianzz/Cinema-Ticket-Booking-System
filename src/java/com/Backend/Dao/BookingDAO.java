@@ -18,7 +18,7 @@ public class BookingDAO {
     private static final String UPDATE_BOOKING = "UPDATE booking SET customer_id = ?, total_price = ?, booking_date = ?, booking_status = ? WHERE booking_id = ?";
     private static final String DELETE_BOOKING = "DELETE FROM booking WHERE booking_id = ?";
     private static final String DELETE_BOOKING_BY_CUSTOMER_ID = "DELETE FROM booking WHERE customer_id = ?";
-
+    private static final String CANCEL_BOOKING = "EXEC CancelBooking @booking_id = ?";
     public static int getMaxBookingId(Connection connection){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_MAX_BOOKING_ID);
@@ -84,9 +84,13 @@ public class BookingDAO {
     }
     public static boolean deleteBooking(Connection connection, Booking booking){
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOKING);
+            PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_BOOKING);
             preparedStatement.setInt(1, booking.getBookingId());
-            return preparedStatement.executeUpdate() > 0;
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement(DELETE_BOOKING);
+            preparedStatement.setInt(1, booking.getBookingId());
+            preparedStatement.executeUpdate();
+            return true;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -102,6 +106,17 @@ public class BookingDAO {
             e.printStackTrace();
         }
         System.err.println("Failed to confirm booking");
+        return false;
+    }
+    public static boolean cancelBooking(Connection connection, Booking booking){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_BOOKING);
+            preparedStatement.setInt(1, booking.getBookingId());
+            return preparedStatement.executeUpdate() > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.err.println("Failed to cancel booking");
         return false;
     }
     public static boolean deleteBookingsByCustomer(Connection connection, Customer customer){

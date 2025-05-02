@@ -14,7 +14,7 @@ public class SeatDAO {
     private static final String GET_ALL_SEATS = "SELECT * FROM seat";
     private static final String INSERT_SEAT = "INSERT INTO seat (hall_number, row_number, seat_number) VALUES (?, ?, ?)";
     private static final String UPDATE_SEAT = "UPDATE seat SET hall_number = ?, row_number = ?, seat_number = ? WHERE seat_id = ?";
-    private static final String DELETE_SEAT = "DELETE FROM seat WHERE seat_id = ?";
+    private static final String DELETE_SEAT_PROCEDURE = "EXEC deleteSeat ?";
     private static final String DELETE_SEAT_BY_HALL_ID = "DELETE FROM seat WHERE hall_number = ?";
     private static final String DECREMENT_NUMBER_OF_SEATS = "UPDATE hall SET number_of_seats = number_of_seats - 1 WHERE hall_number = ?";
     private static final String INCREMENT_NUMBER_OF_SEATS = "UPDATE hall SET number_of_seats = number_of_seats + 1 WHERE hall_number = ?";
@@ -44,7 +44,6 @@ public class SeatDAO {
                         resultSet.getInt(3),
                         resultSet.getInt(4)
                 );
-//                hall.addSeat(seat);
                 seatMap.put(seat.getSeatId(), seat);
             }
         }catch (Exception e) {
@@ -85,12 +84,9 @@ public class SeatDAO {
     }
     public static boolean deleteSeat(Connection connection, Seat seat){
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT);
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT_PROCEDURE);
             preparedStatement.setInt(1, seat.getSeatId());
             preparedStatement.executeUpdate();
-            PreparedStatement decrementStatement = connection.prepareStatement(DECREMENT_NUMBER_OF_SEATS);
-            decrementStatement.setInt(1, seat.getHall().getHallNumber());
-            decrementStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,9 +95,11 @@ public class SeatDAO {
     }
     public static boolean deleteSeatByHall(Connection connection, Hall hall){
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT_BY_HALL_ID);
-            preparedStatement.setInt(1, hall.getHallNumber());
-            preparedStatement.executeUpdate();
+            for (Seat seat : hall.getSeats()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT_PROCEDURE);
+                preparedStatement.setInt(1, seat.getSeatId());
+                preparedStatement.executeUpdate();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
