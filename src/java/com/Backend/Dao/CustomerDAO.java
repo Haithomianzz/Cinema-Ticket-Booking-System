@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class CustomerDAO {
     // private static final String GET_CUSTOMER_BY_ID = "SELECT * FROM customer WHERE customer_id = ?";
-    private static final String GET_ALL_CUSTOMERS = "SELECT * FROM customer";
+    private static final String GET_ALL_CUSTOMERS = "SELECT customer_id, name, email, phone_number, password, membership_status FROM customer";
     private static final String GET_MAX_CUSTOMER_ID = "SELECT MAX(customer_id) FROM customer";
     private static final String INSERT_CUSTOMER = "INSERT INTO customer (name, email, phone_number, password, membership_status) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_CUSTOMER = "UPDATE customer SET name = ?, email = ?, phone_number = ?, password = ?, membership_status = ? WHERE customer_id = ?";

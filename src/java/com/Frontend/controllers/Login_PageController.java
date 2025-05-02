@@ -4,7 +4,6 @@ import com.Backend.Client;
 import com.Backend.Entities.Customer;
 import com.Frontend.AlertBox;
 import com.Frontend.SceneController;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,36 +20,36 @@ import java.util.ResourceBundle;
 public class Login_PageController {
 
     @FXML
-    private TextField LP_Username;
+    private TextField LP_Email;
 
     @FXML
     private TextField LP_Password;
 
+    public void initialize() {
+        Main.setCurrentUser(null);
+    }
+
     @FXML
     void handleLogin(ActionEvent event) throws IOException {
-        String username = LP_Username.getText().trim();
+        String Email = LP_Email.getText().trim();
         String password = LP_Password.getText().trim();
 
         // Validate Input
-        if (username.isEmpty()) {
-            AlertBox.alert("Error", "Username cannot be empty!", "Close");
+        if (Email.isEmpty()) {
+            AlertBox.alert("Error", "Email cannot be empty!", "Close");
             return;
         }
-//        if (!username.matches("^[a-zA-Z0-9](?!.*[_.]{2})[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$")) {
-//            AlertBox.alert("Invalid Username", "Please enter a valid username.", "Close");
+//        if (!Email.matches("^[a-zA-Z0-9](?!.*[_.]{2})[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$")) {
+//            AlertBox.alert("Invalid Email", "Please enter a valid Email.", "Close");
 //            return;
 //        }
         if (password.isEmpty()) {
             AlertBox.alert( "Error", "Password cannot be empty!","Close");
             return;
         }
-//        if (password.length() < 8) {
-//            AlertBox.alert("Invalid Password", "Password must be at least 8 characters long.", "Close");
-//            return;
-//        }
 
-        if (!Client.verifyCredentials(username, password)) {
-            AlertBox.alert("Login Failed", "Invalid username or password.", "Close");
+        if (!Client.verifyCredentials(Email, password)) {
+            AlertBox.alert("Login Failed", "Invalid Email or password.", "Close");
             return;
         }
         // Set the current user
@@ -61,7 +60,7 @@ public class Login_PageController {
             System.out.println("Customer Login successful");
             goToHomePage(event);
         } else {
-            AlertBox.alert("Login Failed","Invalid username or password.","Close");
+            AlertBox.alert("Login Failed","Invalid Email or password.","Close");
         }
     }
 
@@ -88,6 +87,6 @@ public class Login_PageController {
     @FXML
     void goToAdminPage(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.SwitchToHome(event);
+        sceneController.SwitchToAdminMovesGenres(event);
     }
 }

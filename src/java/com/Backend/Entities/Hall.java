@@ -11,14 +11,15 @@ public class Hall {
     private ArrayList<Seat> seats = new ArrayList<>();
     private ArrayList<Showtime> showtimes = new ArrayList<>();
 
-    public Hall(int numberOfSeats) {
+    public Hall() {
         this.hallNumber = ++counterID;
-        this.numberOfSeats = numberOfSeats;
+        this.numberOfSeats = 0;
     }
-    public Hall(int hallNumber, int numberOfSeats) {
+    public Hall(int hallNumber) {
         this.hallNumber = hallNumber;
-        this.numberOfSeats = numberOfSeats;
+        this.numberOfSeats = 0;
     }
+    public static int getCounterID() { return counterID; }
     public int getHallNumber() { return hallNumber; }
     public int getNumberOfSeats() { return numberOfSeats; }
     public ArrayList<Seat> getSeats() { return seats; }

@@ -30,7 +30,8 @@ public class Ticket_CardController {
         TC_Hall.setText(Integer.toString(ticket.getShowtime().getHall().getHallNumber()));
         TC_Seat.setText(Integer.toString(ticket.getSeat().getSeatNumber()));
         TC_Price.setText(Integer.toString(ticket.getShowtime().getPricePerSeat()));
-        TC_QrCode.setImage( new Image(getClass().getResourceAsStream( ticket.getQrCode() )));;
+        TC_QrCode.setImage(new Image(getClass().getResourceAsStream( "/com/Frontend/resources/qr.jpeg" )));
+        //TC_QrCode.setImage(new Image(getClass().getResourceAsStream( ticket.getQrCode() )));;
     }
 
 }

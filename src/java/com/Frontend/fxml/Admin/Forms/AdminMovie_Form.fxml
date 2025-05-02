@@ -2,13 +2,14 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane prefHeight="497.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Frontend.controllers.Admin.Forms.AdminMovie_FormController">
+<AnchorPane prefHeight="537.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Frontend.controllers.Admin.Forms.AdminMovie_FormController">
     <children>
         <AnchorPane layoutX="46.0" layoutY="17.0" prefHeight="475.0" prefWidth="450.0" stylesheets="@../../../../../../../../ARS/src/main/resources/Styles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <styleClass>
@@ -17,69 +18,76 @@
                 <String fx:value="shadow" />
             </styleClass>
             <children>
-                <Label fx:id="MF_Title" layoutX="14.0" layoutY="14.0" prefHeight="21.0" prefWidth="131.0" styleClass="header-1" stylesheets="@../../Styles.css" text="Movies Form">
+                <Label layoutX="14.0" layoutY="14.0" prefHeight="21.0" prefWidth="131.0" styleClass="header-1" stylesheets="@../../Styles.css" text="Movies Form">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Button layoutX="106.0" layoutY="421.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Save" />
-                <Button layoutX="256.0" layoutY="421.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Cancel" />
-                <TextField fx:id="MF_Rating" layoutX="182.0" layoutY="172.0" promptText="Movie Rating">
+                <Button layoutX="102.0" layoutY="466.0" mnemonicParsing="false" onAction="#save" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Save" />
+                <Button layoutX="252.0" layoutY="466.0" mnemonicParsing="false" onAction="#cancel" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Cancel" />
+                <TextField fx:id="MF_Rating" layoutX="181.0" layoutY="177.0" promptText="Movie Rating">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="MF_Duration" layoutX="181.0" layoutY="116.0" promptText="Movie Duration ">
+                <TextField fx:id="MF_Duration" layoutX="180.0" layoutY="121.0" promptText="Movie Duration ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="ACF_Name" layoutX="181.0" layoutY="61.0" promptText="Movie Title">
+                <TextField fx:id="ACF_Name" layoutX="180.0" layoutY="66.0" promptText="Movie Title">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <ChoiceBox fx:id="MF_Genre" layoutX="182.0" layoutY="342.0" prefHeight="39.0" prefWidth="224.0" />
-                <TextField fx:id="MF_Language" layoutX="182.0" layoutY="229.0" promptText="Movie Language">
+                <TextField fx:id="MF_Language" layoutX="181.0" layoutY="234.0" promptText="Movie Language">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <Label layoutX="70.0" layoutY="61.0" prefHeight="27.0" prefWidth="76.0" text="Title : ">
+                <Label layoutX="69.0" layoutY="71.0" prefHeight="27.0" prefWidth="76.0" text="Title : ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="70.0" layoutY="115.0" prefHeight="27.0" prefWidth="100.0" text="Duration :">
+                <Label layoutX="69.0" layoutY="125.0" prefHeight="27.0" prefWidth="100.0" text="Duration :">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="70.0" layoutY="171.0" prefHeight="27.0" prefWidth="76.0" text="Rating : ">
+                <Label layoutX="69.0" layoutY="181.0" prefHeight="27.0" prefWidth="76.0" text="Rating : ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="70.0" layoutY="228.0" prefHeight="27.0" prefWidth="94.0" text="Language : ">
+                <Label layoutX="69.0" layoutY="238.0" prefHeight="27.0" prefWidth="94.0" text="Language : ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="68.0" layoutY="348.0" prefHeight="27.0" prefWidth="110.0" text="Genre : ">
+                <Label layoutX="69.0" layoutY="404.0" prefHeight="27.0" prefWidth="110.0" text="Genre : ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-            <TextField fx:id="MF_Description" layoutX="182.0" layoutY="284.0" promptText="Movie Description">
+            <TextField fx:id="MF_Description" layoutX="181.0" layoutY="289.0" promptText="Movie Description">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Label layoutX="70.0" layoutY="283.0" prefHeight="27.0" prefWidth="110.0" text="Description : ">
+            <Label layoutX="69.0" layoutY="293.0" prefHeight="27.0" prefWidth="110.0" text="Description : ">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <CheckComboBox fx:id="MF_Genre" layoutX="182.0" layoutY="405.0" prefHeight="36.0" prefWidth="224.0" />
+            <Button layoutX="332.0" layoutY="9.0" mnemonicParsing="false" onAction="#setImage" prefHeight="36.0" prefWidth="110.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Import Image" />
+            <Label layoutX="68.0" layoutY="351.0" prefHeight="27.0" prefWidth="120.0" text="Release Date : ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="MF_RDate" layoutX="181.0" layoutY="345.0" prefHeight="40.0" prefWidth="224.0" />
             </children>
         </AnchorPane>
     </children>

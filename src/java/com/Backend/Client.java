@@ -5,6 +5,7 @@ import com.Backend.Dao.*;
 import com.Backend.Entities.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,14 +55,14 @@ public class Client implements Runnable {
 
             // Load Bookings, Showtimes, and Seats next
             Future<HashMap<Integer, Booking>> bookingFuture = executor.submit(() -> BookingDAO.getAllBookings(connection, customerMap));
-            Future<HashMap<Integer, Showtime>> showtimeFuture = executor.submit(() -> ShowtimeDAO.getAllShowtimes(connection, movieMap, hallMap));
             Future<HashMap<Integer, Seat>> seatFuture = executor.submit(() -> SeatDAO.getAllSeats(connection, hallMap));
 
             // Wait for the second set of tasks to complete
             bookingMap = bookingFuture.get();
-            showtimeMap = showtimeFuture.get();
             seatMap = seatFuture.get();
 
+            Future<HashMap<Integer, Showtime>> showtimeFuture = executor.submit(() -> ShowtimeDAO.getAllShowtimes(connection, movieMap, hallMap));
+            showtimeMap = showtimeFuture.get();
             // Allocate seats and load Tickets last
             Future<Boolean> allocateSeatsFuture = executor.submit(() -> ShowtimeDAO.allocateSeats(connection, showtimeMap, seatMap));
             Future<HashMap<Triplet<Integer, Integer, Integer>, Ticket>> ticketFuture = executor.submit(() -> TicketDAO.getAllTickets(connection, bookingMap, showtimeMap, seatMap));
@@ -106,6 +107,18 @@ public class Client implements Runnable {
     public static boolean addHall(Hall hall) {
         if (!HallDAO.insertHall(connection, hall)) return false;
         hallMap.put(hall.getHallNumber(), hall);
+        int count = 0;
+        while (count < hall.getNumberOfSeats()) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j <6; j++) {
+                    if (count >= hall.getNumberOfSeats()) break;
+                    count++;
+                    Seat seat = new Seat(hall, i, j);
+                    hall.addSeat(seat);
+                    seatMap.put(seat.getSeatId(), seat);
+                }
+            }
+        }
         return true;
     }
     public static boolean addBooking(Booking booking) {
@@ -223,6 +236,7 @@ public class Client implements Runnable {
     }
     public static boolean removeTicket(Ticket ticket) {
         if (!TicketDAO.deleteTicket(connection, ticket)) return false;
+        ticket.cancelTicket();
         ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
         ticket.cancelTicket();
         return true;
@@ -248,6 +262,7 @@ public class Client implements Runnable {
             return true;
         } else if (userid == 0) {
             Main.setCurrentUserType(Main.UserType.ADMIN);
+            Main.setCurrentUser(customerMap.get(0));
             System.out.println("Admin authenticated successfully.");
             return true;
         } else {
@@ -273,11 +288,30 @@ public class Client implements Runnable {
         }
         return null;
     }
+    public static Boolean confirmBooking(Booking booking) {
+        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER && BookingDAO.confirmBooking(connection, booking)) {
+            booking.setBookingStatus(Booking.BookingStatus.CONFIRMED);
+            return true;
+        }
+        return false;
+    }
+    public static Boolean cancelBooking(Booking booking) {
+        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER && TicketDAO.deleteTicketByBooking(connection, booking)) {
+            ArrayList<Ticket> tickets = new ArrayList<>(booking.getTickets()) ;
+            for (Ticket ticket : tickets) {
+                ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
+                ticket.cancelTicket();
+            }
+            booking.setBookingStatus(Booking.BookingStatus.CANCELLED);
+            return true;
+        }
+        return false;
+    }
 
 
     public static boolean updateCustomer(Customer customer) { return CustomerDAO.updateCustomer(connection, customer); }
     public static boolean updateMovie(Movie movie) { return MovieDAO.updateMovie(connection, movie); }
-    public static boolean updateHall(Hall hall) { return HallDAO.updateHall(connection, hall); }
+//    public static boolean updateHall(Hall hall) { return HallDAO.updateHall(connection, hall); }
     public static boolean updateBooking(Booking booking) { return BookingDAO.updateBooking(connection, booking); }
     public static boolean updateSeat(Seat seat) { return SeatDAO.updateSeat(connection, seat); }
     public static boolean updateShowtime(Showtime showtime) { return ShowtimeDAO.updateShowtime(connection, showtime); }

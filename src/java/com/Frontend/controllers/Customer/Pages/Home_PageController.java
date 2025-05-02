@@ -1,14 +1,18 @@
 package com.Frontend.controllers.Customer.Pages;
 import com.Backend.Client;
 import com.Backend.Entities.Movie;
+import com.Frontend.AlertBox;
 import com.Frontend.Main;
+import com.Frontend.SceneController;
 import com.Frontend.controllers.Customer.Cards.Movie_CardController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -30,8 +34,10 @@ public class Home_PageController {
     private Movie.Genre currentGenre = null; // Track the currently selected genre
 
     public void initialize() {
-        if (Main.getCurrentUserType() == Main.UserType.CUSTOMER) {
+        if (Main.getCurrentUserType() != Main.UserType.GUEST) {
             C_Username.setText(Main.getCurrentUser().getName());
+        }else{
+            C_Username.setText("Guest");
         }
 
         // Get all movies
@@ -76,6 +82,7 @@ public class Home_PageController {
                 populateMovieGrid(movieGrid, allMovies, currentGenre, HP_Search.getText());
             });
             genreButton.setPrefWidth(250);
+            genreButton.setPrefHeight(50);
             HP_Clist.getChildren().add(genreButton);
         }
     }
@@ -112,5 +119,33 @@ public class Home_PageController {
                 e.printStackTrace();
             }
         }
+    }
+    public void goToHomePage(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.SwitchToHome(event);
+    }
+    public void goToMoviesPage(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.SwitchToMovies(event);
+    }
+    public void goToBookingPage(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.SwitchToBookingPages(event);
+    }
+    public void goToTicketPage(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.SwitchToTicketPage(event);
+    }
+    public void goToProfilePage(MouseEvent event) throws IOException {
+        if (Main.getCurrentUserType() != Main.UserType.GUEST){
+            SceneController sceneController = new SceneController();
+            sceneController.SwitchToProfileForm(event);
+        }
+        else
+            AlertBox.alert("Error", "You must be logged in to access this page!", "Close");
+    }
+    public void goToLoginPage(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.SwitchToLogin(event);
     }
 }

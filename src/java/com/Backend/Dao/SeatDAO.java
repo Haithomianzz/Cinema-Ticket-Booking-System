@@ -44,7 +44,7 @@ public class SeatDAO {
                         resultSet.getInt(3),
                         resultSet.getInt(4)
                 );
-                hall.addSeat(seat);
+//                hall.addSeat(seat);
                 seatMap.put(seat.getSeatId(), seat);
             }
         }catch (Exception e) {

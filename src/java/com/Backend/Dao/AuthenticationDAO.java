@@ -20,7 +20,7 @@ public class AuthenticationDAO {
                 return resultSet.getInt(1);
             } else {
                 System.err.println("Error: Invalid email or password.");
-                return null;
+                return -1;
             }
         } catch (Exception e) {
             e.printStackTrace();
