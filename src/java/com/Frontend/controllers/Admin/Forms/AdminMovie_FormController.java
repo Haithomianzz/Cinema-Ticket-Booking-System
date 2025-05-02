@@ -14,11 +14,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
+import javafx.scene.image.ImageView;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,9 +41,10 @@ public class AdminMovie_FormController {
     @FXML
     private TextField MF_Rating;
     @FXML
-    private Label MF_Title;
-    @FXML
     private CheckComboBox<String> MF_Genre;
+    @FXML
+    private ImageView MF_Image;
+
 
     Movie movie;
     public void initialize() {
@@ -72,6 +75,7 @@ public class AdminMovie_FormController {
                 byte[] imageData = Files.readAllBytes(file.toPath());
                 Image image = new Image(new ByteArrayInputStream(imageData));
                 movie.setImageData(imageData);
+                MF_Image.setImage(new Image(getClass().getResourceAsStream(file.toPath().toString())));;
             } catch (IOException e) {
                 AlertBox.alert("Error", "Failed to load image.", "Close");
             }

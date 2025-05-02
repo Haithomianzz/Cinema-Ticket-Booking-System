@@ -104,7 +104,6 @@
                                 <Font size="25.0" />
                             </font>
                         </Label>
-                  <Button layoutX="1194.0" layoutY="14.0" mnemonicParsing="false" onAction="#add2" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="14.0" />
                   <AnchorPane layoutX="22.0" layoutY="65.0" prefHeight="624.0" prefWidth="606.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="683.0" AnchorPane.topAnchor="65.0">
                      <children>
                         <TableView fx:id="HT" layoutX="8.0" layoutY="9.0" prefHeight="605.0" prefWidth="581.0" stylesheets="@../../Styles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -135,7 +134,7 @@
                         </TableView>
                      </children>
                       </AnchorPane>
-                  <Button layoutX="537.0" layoutY="14.0" mnemonicParsing="false" onAction="#add1" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" />
+                  <Button layoutX="1195.0" layoutY="14.0" mnemonicParsing="false" onAction="#add1" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" />
                     </children>
                 </AnchorPane>
             </children>
