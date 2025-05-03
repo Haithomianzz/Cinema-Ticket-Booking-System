@@ -158,12 +158,11 @@ public class SceneController {
         stage.show();
     }
 
-    public static void SwitchToAdminBookingForm(ActionEvent event,Showtime show) throws IOException {
+    public static void SwitchToAdminBookingForm(ActionEvent event,Booking book) throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("fxml/Admin/Forms/AdminBooking_Form.fxml"));
         Parent root = loader.load();
 
         AdminBooking_FormController controller = loader.getController();
-        controller.setData(show);
 
         Stage newStage = new Stage();
         newStage.setTitle("Booking Form");

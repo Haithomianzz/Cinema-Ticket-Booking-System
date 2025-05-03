@@ -24,7 +24,7 @@ public class Showtime {
         this.showtimeId = ++counterID;
         this.movie = movie;
         this.hall = hall;
-        this.seatsAvailable = (hall.getSeats().isEmpty()) ? new ArrayList<>(hall.getSeats()) : hall.getSeats();
+        this.seatsAvailable = new ArrayList<>(hall.getSeats());
         this.showDate = showDate;
         this.showTime = showTime;
         this.pricePerSeat = pricePerSeat;
@@ -35,14 +35,24 @@ public class Showtime {
         this.showtimeId = showtimeId;
         this.movie = movie;
         this.hall = hall;
-        this.seatsAvailable = (hall.getSeats().isEmpty()) ? new ArrayList<>(hall.getSeats()) : hall.getSeats();
+        this.seatsAvailable = new ArrayList<>(hall.getSeats());
         this.showDate = new Date(showDate);
         this.showTime = showTime;
         this.pricePerSeat = pricePerSeat;
         hall.addShowtime(this);
         movie.addShowtime(this);
     }
-    public void editShowtime(Date showDate, String showTime, int pricePerSeat) {
+    public void editShowtime(Movie movie, Hall hall, Date showDate, String showTime, int pricePerSeat) {
+        if (movie != null && movie.getMovieId() != this.movie.getMovieId()) {
+            this.movie.removeShowtime(this);
+            this.movie = movie;
+            movie.addShowtime(this);
+        }
+        if (hall != null && hall.getHallNumber() != this.hall.getHallNumber()) {
+            this.hall.removeShowtime(this);
+            this.hall = hall;
+            hall.addShowtime(this);
+        }
         this.showDate = showDate != null ? showDate : this.showDate;
         this.showTime = showTime != null ? showTime : this.showTime;
         this.pricePerSeat = pricePerSeat != 0 ? pricePerSeat : this.pricePerSeat;

@@ -9,15 +9,11 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class SeatDAO {
-    //    private static final String GET_SEAT_BY_ID = "SELECT * FROM seat WHERE seat_id = ?";
     private static final String GET_MAX_SEAT_ID = "SELECT MAX(seat_id) FROM seat";
     private static final String GET_ALL_SEATS = "SELECT * FROM seat";
     private static final String INSERT_SEAT = "INSERT INTO seat (hall_number, row_number, seat_number) VALUES (?, ?, ?)";
     private static final String UPDATE_SEAT = "UPDATE seat SET hall_number = ?, row_number = ?, seat_number = ? WHERE seat_id = ?";
     private static final String DELETE_SEAT_PROCEDURE = "EXEC deleteSeat ?";
-    private static final String DELETE_SEAT_BY_HALL_ID = "DELETE FROM seat WHERE hall_number = ?";
-    private static final String DECREMENT_NUMBER_OF_SEATS = "UPDATE hall SET number_of_seats = number_of_seats - 1 WHERE hall_number = ?";
-    private static final String INCREMENT_NUMBER_OF_SEATS = "UPDATE hall SET number_of_seats = number_of_seats + 1 WHERE hall_number = ?";
     public static int getMaxSeatId(Connection connection){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_MAX_SEAT_ID);
@@ -58,9 +54,6 @@ public class SeatDAO {
             preparedStatement.setInt(2, seat.getRowNumber());
             preparedStatement.setInt(3, seat.getSeatNumber());
             preparedStatement.executeUpdate();
-            PreparedStatement incrementStatement = connection.prepareStatement(INCREMENT_NUMBER_OF_SEATS);
-            incrementStatement.setInt(1, seat.getHall().getHallNumber());
-            incrementStatement.executeUpdate();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,19 +80,6 @@ public class SeatDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT_PROCEDURE);
             preparedStatement.setInt(1, seat.getSeatId());
             preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.err.println("Failed to delete seat");
-        return false;
-    }
-    public static boolean deleteSeatByHall(Connection connection, Hall hall){
-        try {
-            for (Seat seat : hall.getSeats()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SEAT_PROCEDURE);
-                preparedStatement.setInt(1, seat.getSeatId());
-                preparedStatement.executeUpdate();
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -28,7 +28,7 @@ public class AdminHall_FormController {
         this.hall = hall;
         if(hall != null) {
             AHF_Hall.setText(String.valueOf(hall.getHallNumber()));
-            AHF_NSeats.setText(String.valueOf(hall.getSeats()));
+            AHF_NSeats.setText(String.valueOf(hall.getNumberOfSeats()));
         }
     }
 
@@ -36,7 +36,7 @@ public class AdminHall_FormController {
         int Nseats = Integer.parseInt(AHF_NSeats.getText());
         if( Nseats>0 && Nseats <19) {
             Hall newHall = new Hall();
-            if (!Client.addHall(newHall)) {
+            if (!Client.addHall(newHall, Nseats)) {
                 AlertBox.alert("Error", "Hall already exists!", "Close");
             }
             AlertBox.alert("Success", "Hall added successfully!", "Close");

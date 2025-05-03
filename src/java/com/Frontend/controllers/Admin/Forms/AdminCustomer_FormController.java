@@ -71,7 +71,7 @@ public class AdminCustomer_FormController {
                 AlertBox.alert("Error", "Customer already exists!", "Close");
                 return;
             }
-            customer = newCustomer;
+            customer.editProfile(name, email, phoneStr, password, Customer.MembershipStatus.valueOf(membership));
             System.out.println("Updating customer...");
 
         } else {

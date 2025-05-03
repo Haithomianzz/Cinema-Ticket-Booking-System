@@ -53,7 +53,13 @@ public class Profile_FormController {
                 customer.getMembership()
         );
         if (Client.updateCustomer(newCustomer)) {
-            customer = newCustomer;
+            customer.editProfile(
+                    PF_Name.getText(),
+                    PF_Email.getText(),
+                    PF_Phone.getText(),
+                    PF_Password.getText(),
+                    customer.getMembership()
+            );
             Main.setCurrentUser(customer);
             System.out.println("Update successful");
         } else {

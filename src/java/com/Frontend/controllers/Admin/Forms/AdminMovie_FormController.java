@@ -1,9 +1,6 @@
 package com.Frontend.controllers.Admin.Forms;
-
 import com.Backend.Client;
-import com.Backend.Entities.Hall;
 import com.Backend.Entities.Movie;
-import com.Backend.Entities.Showtime;
 import com.Frontend.AlertBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,19 +9,19 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.controlsfx.control.CheckComboBox;
 import javafx.scene.image.ImageView;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
 
 public class AdminMovie_FormController {
 
@@ -35,7 +32,7 @@ public class AdminMovie_FormController {
     @FXML
     private TextField MF_Duration;
     @FXML
-    private TextField MF_Language;
+    private ChoiceBox<String> MF_Language;
     @FXML
     private DatePicker MF_RDate;
     @FXML
@@ -45,26 +42,88 @@ public class AdminMovie_FormController {
     @FXML
     private ImageView MF_Image;
 
+    private byte[] imageData = null;
+    private Movie movie;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    Movie movie;
     public void initialize() {
-        Movie.Genre[] allGenres = Movie.Genre.values();
-        ObservableList<Movie.Genre> genreList = FXCollections.observableArrayList(allGenres);
-        MF_Genre.getItems().addAll(String.valueOf(genreList));
+        // Populate Language ChoiceBox
+        for (Movie.Language language : Movie.Language.values()) {
+            MF_Language.getItems().add(language.toString());
+        }
+        // Populate Genre CheckComboBox
+        for (Movie.Genre genre : Movie.Genre.values()) {
+            MF_Genre.getItems().add(genre.toString());
+        }
+
+        // --- Set the StringConverter for the DatePicker ---
+        MF_RDate.setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    try {
+                        return LocalDate.parse(string, dateFormatter);
+                    } catch (DateTimeParseException e) {
+                        // Handle parse error if needed
+                        System.err.println("Error parsing date: " + string + " - " + e.getMessage());
+                        return null; // Or handle appropriately
+                    }
+                } else {
+                    return null;
+                }
+            }
+        });
+        // Set a default value or prompt text if desired
+        MF_RDate.setPromptText("yyyy-MM-dd");
+        // Optionally set the default displayed date
+        // MF_RDate.setValue(LocalDate.now()); // You might remove this if you prefer the prompt text
     }
 
+    // ... rest of the methods (setData, setImage, save, cancel, etc.) ...
+    // Note: The save method can continue to use MF_RDate.getValue()
+    // as the converter handles the parsing from the text field input.
+    // The setData method also correctly uses MF_RDate.setValue().
+
+    public void setI(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Movie Poster Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
+        );
+
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            setImage(selectedFile);
+        }
+    }
     public void setData(Movie movie) {
         this.movie = movie;
         if (movie != null) {
             ACF_Name.setText(movie.getTitle());
             MF_Description.setText(movie.getDescription());
             MF_Duration.setText(String.valueOf(movie.getDuration()));
-            MF_Language.setText(movie.getLanguage().toString());
             MF_RDate.setValue(movie.getReleaseDate().getDate());
             MF_Rating.setText(String.valueOf(movie.getRating()));
             MF_Genre.getCheckModel().clearChecks();
+            MF_Language.setValue(movie.getLanguage().toString());
             for (Movie.Genre genre : movie.getGenres()) {
                 MF_Genre.getCheckModel().check(genre.toString());
+            }
+            if (movie.getImageData() != null) {
+                Image image = new Image(new ByteArrayInputStream(movie.getImageData()));
+                MF_Image.setImage(image);
+                this.imageData = movie.getImageData();
             }
         }
     }
@@ -74,8 +133,9 @@ public class AdminMovie_FormController {
             try {
                 byte[] imageData = Files.readAllBytes(file.toPath());
                 Image image = new Image(new ByteArrayInputStream(imageData));
-                movie.setImageData(imageData);
-                MF_Image.setImage(new Image(getClass().getResourceAsStream(file.toPath().toString())));;
+                MF_Image.setImage(image);
+                MF_Image.setPreserveRatio(true);
+                this.imageData = imageData;
             } catch (IOException e) {
                 AlertBox.alert("Error", "Failed to load image.", "Close");
             }
@@ -86,7 +146,7 @@ public class AdminMovie_FormController {
         String title = ACF_Name.getText();
         String description = MF_Description.getText();
         String durationStr = MF_Duration.getText();
-        String languageStr = MF_Language.getText();
+        String languageStr = MF_Language.getValue();
         String releaseDateStr = MF_RDate.getValue().toString();
         String ratingStr = MF_Rating.getText();
 
@@ -109,17 +169,26 @@ public class AdminMovie_FormController {
                     Integer.parseInt(durationStr),
                     releaseDateStr,
                     selectedGenres,
-                    movie.getImageData()
+                    imageData
             );
             if (Client.updateMovie(newMovie)) {
+                movie.editMovie(
+                        title,
+                        description,
+                        Float.parseFloat(ratingStr),
+                        languageStr,
+                        Integer.parseInt(durationStr),
+                        releaseDateStr,
+                        selectedGenres,
+                        imageData
+                );
                 AlertBox.alert("Success", "Movie updated successfully!", "Close");
-                movie = newMovie;
             } else {
                 AlertBox.alert("Error", "Failed to update movie.", "Close");
             }
 
         } else {
-            if (ACF_Name.getText().isEmpty() || MF_Description.getText().isEmpty() || MF_Duration.getText().isEmpty() || MF_Language.getText().isEmpty() || MF_RDate.getValue() == null || MF_Rating.getText().isEmpty()) {
+            if (ACF_Name.getText().isEmpty() || MF_Description.getText().isEmpty() || MF_Duration.getText().isEmpty() || MF_Language.getSelectionModel().isEmpty() || MF_RDate.getValue() == null || MF_Rating.getText().isEmpty()) {
                 AlertBox.alert("Error", "Please fill in all fields.", "Close");
                 return;
             }
@@ -135,10 +204,11 @@ public class AdminMovie_FormController {
                         duration,
                         releaseDateStr,
                         selectedGenres,
-                        movie != null ? movie.getImageData() : null // Use existing image data if available
+                        imageData
                 );
                 if (Client.addMovie(newMovie)) {
                     AlertBox.alert("Success", "Movie added successfully!", "Close");
+
                 } else {
                     AlertBox.alert("Error", "Failed to add movie.", "Close");
                 }
@@ -153,6 +223,35 @@ public class AdminMovie_FormController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
+
+
+//    try {
+//        if (alert.confirmationMessage("Are you sure you want to Update Doctor ID: " + editDoctor_doctorID.getText() + "?")) {
+//            String destinationDirectory = "C:\\Users\\WINDOWS 10\\Documents\\NetBeansProjects\\HospitalManagementSystem\\src\\Doctor_Directory\\";
+//            String fileName = editDoctor_doctorID.getText() + ".jpg";
+//
+//            String savedImagePath = ImageHandler.saveImage(Data.path, destinationDirectory, fileName);
+//
+//            String updateData = "UPDATE doctor SET full_name = '"
+//                    + editDoctor_fullName.getText() + "', email = '"
+//                    + editDoctor_email.getText() + "', password = '"
+//                    + editDoctor_password.getText() + "', specialized = '"
+//                    + editDoctor_specialized.getSelectionModel().getSelectedItem() + "', gender = '"
+//                    + editDoctor_gender.getSelectionModel().getSelectedItem() + "', mobile_number = '"
+//                    + editDoctor_mobileNumber.getText() + "', image = '"
+//                    + savedImagePath.replace("\\", "\\\\") + "', address = '"
+//                    + editDoctor_address.getText() + "', status = '"
+//                    + editDoctor_status.getSelectionModel().getSelectedItem() + "' "
+//                    + "WHERE doctor_id = '" + editDoctor_doctorID.getText() + "'";
+//
+//            prepare = connect.prepareStatement(updateData);
+//            prepare.executeUpdate();
+//        } else {
+//            alert.errorMessage("Cancelled.");
+//        }
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
 
 }
 

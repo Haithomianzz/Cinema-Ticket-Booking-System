@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MovieDAO {
-    // private static final String GET_MOVIE_BY_ID = "SELECT * FROM movie WHERE movie_id = ?";
     private static final String GET_ALL_MOVIES = "SELECT movie_id, title, description, rating, language, duration, release_date, image FROM movie";
     private static final String GET_MAX_MOVIE_ID = "SELECT MAX(movie_id) FROM movie";
     private static final String GET_GENRES_BY_MOVIE = "SELECT genre FROM movie_genre WHERE movie_id = ?";
     private static final String INSERT_MOVIE = "INSERT INTO movie (title, duration, language, release_date, rating, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_MOVIE_GENRE = "INSERT INTO movie_genre (movie_id, genre) VALUES (?, ?)";
-    private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, description = ?, rating = ?, language = ?, duration = ?, release_date = ?, ImageData = ? WHERE movie_id = ?";
+    private static final String UPDATE_MOVIE = "UPDATE movie SET title = ?, description = ?, rating = ?, language = ?, duration = ?, release_date = ?, image = ? WHERE movie_id = ?";
     private static final String DELETE_MOVIE = "DELETE FROM movie WHERE movie_id = ?";
     private static final String DELETE_MOVIE_FROM_GENRE = "DELETE FROM movie_genre WHERE movie_id = ?";
 
@@ -97,12 +96,11 @@ public class MovieDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIE);
             preparedStatement.setString(1, movie.getTitle());
-            preparedStatement.setInt(2, movie.getDuration());
-            preparedStatement.setString(3, movie.getLanguage().toString().toUpperCase());
-            preparedStatement.setString(4, movie.getReleaseDate().toString());
-            preparedStatement.setFloat(5, movie.getRating());
-            preparedStatement.setString(6, movie.getDescription());
-            // Set image data (handle null)
+            preparedStatement.setString(2, movie.getDescription());
+            preparedStatement.setFloat(3, movie.getRating());
+            preparedStatement.setString(4, movie.getLanguage().toString().toUpperCase());
+            preparedStatement.setInt(5, movie.getDuration());
+            preparedStatement.setString(6, movie.getReleaseDate().toString());
             byte[] imageData = movie.getImageData();
             if (imageData != null && imageData.length > 0) {
                 preparedStatement.setBytes(7, imageData);
@@ -113,7 +111,18 @@ public class MovieDAO {
 
             // Set the movie ID for the WHERE clause
             preparedStatement.setInt(8, movie.getMovieId());
-            return preparedStatement.executeUpdate() > 0;
+            preparedStatement.executeUpdate();
+            // Update genres
+            PreparedStatement genreStatement = connection.prepareStatement(DELETE_MOVIE_FROM_GENRE);
+            genreStatement.setInt(1, movie.getMovieId());
+            genreStatement.executeUpdate();
+            for (Movie.Genre genre : movie.getGenres()) {
+                PreparedStatement insertGenreStatement = connection.prepareStatement(INSERT_MOVIE_GENRE);
+                insertGenreStatement.setInt(1, movie.getMovieId());
+                insertGenreStatement.setString(2, genre.toString().toUpperCase());
+                insertGenreStatement.executeUpdate();
+            }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.Frontend.controllers.Admin.Pages;
 import com.Backend.Client;
 import com.Backend.Entities.Hall;
 import com.Backend.Entities.Seat;
+import com.Frontend.AlertBox;
 import com.Frontend.Main;
 import com.Frontend.SceneController;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,231 +13,237 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class AdminHallsSeats_PageController {
 
     @FXML
     private Label C_Username;
     @FXML
-    private TableView<Hall> HT;
+    private TextField Search;
+    @FXML
+    private TableView<Hall> HT; // Hall Table
     @FXML
     private TableColumn<Hall, Integer> HT_Hall_number;
     @FXML
-    private TableView<Seat> ST;
-    @FXML
-    private TableColumn<Seat, Void> ST_Action;
-    @FXML
-    private TableColumn<Seat, Integer> ST_Row_number;
-    @FXML
-    private TextField Search;
-    @FXML
-    private TableColumn<Hall, Void> TH_Action;
-    @FXML
     private TableColumn<Hall, Integer> TH_Nseats;
     @FXML
-    private TableColumn<Seat, Integer> TS_Hall_number;
+    private TableView<Seat> ST; // Seat Table
     @FXML
     private TableColumn<Seat, Integer> TS_SId;
     @FXML
+    private TableColumn<Seat, Integer> TS_Hall_number; // Display Hall Number for Seat
+    @FXML
     private TableColumn<Seat, Integer> TS_Seat_number;
+    @FXML
+    private TableColumn<Seat, Integer> ST_Row_number;
 
-    private final ObservableList<Hall> hallList = FXCollections.observableArrayList(Client.getHallMap().values());
-    private final ObservableList<Seat> seatList = FXCollections.observableArrayList(Client.getSeatMap().values());
+    private final ObservableList<Hall> hallList = FXCollections.observableArrayList();
+    private final ObservableList<Seat> seatList = FXCollections.observableArrayList();
     private FilteredList<Hall> filteredHalls;
     private FilteredList<Seat> filteredSeats;
 
     public void initialize() {
-        if (Main.getCurrentUser() != null) {
+        if (Main.getCurrentUser() != null && Main.getCurrentUser().getName() != null) {
             C_Username.setText(Main.getCurrentUser().getName());
         } else {
-            C_Username.setText("Admin User"); // Fallback or default name
+            C_Username.setText("Admin"); // Fallback or default name
         }
 
-        setupHallTable();
-        setupSeatTable();
+        setupTables();
         setupSearchFilter();
 
-        // Add listener to Hall table selection
+        // Listener to filter seats when a hall is selected
         HT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                filterSeatsByHall(newSelection);
-            } else {
-                // Show all seats if no hall is selected (or handle as needed)
-                filteredSeats.setPredicate(seat -> true); // Show all seats
-                // Or clear the seat table: ST.setItems(FXCollections.observableArrayList());
-            }
+            filterSeatsByHall(newSelection);
         });
+
+        refreshTables(); // Initial data load
     }
 
-    private void setupHallTable() {
+    private void setupTables() {
+        // Hall Table Setup
         HT_Hall_number.setCellValueFactory(new PropertyValueFactory<>("hallNumber"));
         TH_Nseats.setCellValueFactory(new PropertyValueFactory<>("numberOfSeats"));
-
-        // Setup Action Column for Halls
-        Callback<TableColumn<Hall, Void>, TableCell<Hall, Void>> hallActionCellFactory = param -> {
-            final TableCell<Hall, Void> cell = new TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
-
-                {
-                    deleteButton.setStyle("-fx-background-color: #ff6666; -fx-text-fill: white;"); // Red delete button
-                    deleteButton.setOnAction(event -> {
-                        Hall hall = getTableView().getItems().get(getIndex());
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete Hall " + hall.getHallNumber() + "? This will also delete associated seats and showtimes.", ButtonType.YES, ButtonType.NO);
-                        alert.showAndWait().ifPresent(response -> {
-                            if (response == ButtonType.YES) {
-                                if (Client.removeHall(hall)) {
-                                    hallList.remove(hall); // Update ObservableList
-                                    seatList.removeIf(seat -> seat.getHall().getHallNumber() == hall.getHallNumber()); // Update seat list
-                                    // Optionally refresh showtime/booking lists if they depend on this hall
-                                } else {
-                                    new Alert(Alert.AlertType.ERROR, "Failed to delete hall.").showAndWait();
-                                }
-                            }
-                        });
-                    });
-                }
-
-                @Override
-                public void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        HBox buttons = new HBox(deleteButton);
-                        buttons.setSpacing(10);
-                        buttons.setAlignment(Pos.CENTER);
-                        setGraphic(buttons);
-                    }
-                }
-            };
-            return cell;
-        };
-        TH_Action.setCellFactory(hallActionCellFactory);
 
         filteredHalls = new FilteredList<>(hallList, p -> true); // Initially show all halls
         SortedList<Hall> sortedHalls = new SortedList<>(filteredHalls);
         sortedHalls.comparatorProperty().bind(HT.comparatorProperty());
         HT.setItems(sortedHalls);
         HT.setPlaceholder(new Label("No halls found."));
-    }
 
-    private void setupSeatTable() {
+        // Seat Table Setup
         TS_SId.setCellValueFactory(new PropertyValueFactory<>("seatId"));
-        // Map Hall object to its number for display
-TS_Hall_number.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHall().getHallNumber()));
+        // Use a cell value factory to get the hall number from the Seat's Hall object
+        TS_Hall_number.setCellValueFactory(cellData -> {
+            Seat seat = cellData.getValue();
+            if (seat != null && seat.getHall() != null) {
+                return new SimpleObjectProperty<>(seat.getHall().getHallNumber());
+            } else {
+                return new SimpleObjectProperty<>(null); // Or handle appropriately
+            }
+        });
         TS_Seat_number.setCellValueFactory(new PropertyValueFactory<>("seatNumber"));
         ST_Row_number.setCellValueFactory(new PropertyValueFactory<>("rowNumber"));
 
-        // Setup Action Column for Seats
-        Callback<TableColumn<Seat, Void>, TableCell<Seat, Void>> seatActionCellFactory = param -> {
-            final TableCell<Seat, Void> cell = new TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
-
-                {
-                    deleteButton.setStyle("-fx-background-color: #ff6666; -fx-text-fill: white;"); // Red delete button
-                    deleteButton.setOnAction(event -> {
-                        Seat seat = getTableView().getItems().get(getIndex());
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete Seat " + seat.getSeatId() + "?", ButtonType.YES, ButtonType.NO);
-                        alert.showAndWait().ifPresent(response -> {
-                            if (response == ButtonType.YES) {
-                                if (Client.removeSeat(seat)) {
-                                    seatList.remove(seat); // Update ObservableList
-                                    // Update the hall's seat count in the hallList/hallMap if necessary
-                                    Hall associatedHall = Client.getHallMap().get(seat.getHall().getHallNumber());
-                                    if (associatedHall != null) {
-                                        // Force refresh of the hall table cell if needed, or update hallList item
-                                        int index = hallList.indexOf(associatedHall);
-                                        if(index != -1) {
-                                            // This might not automatically refresh the cell, direct update might be better
-                                            // hallList.set(index, Client.getHallMap().get(associatedHall.getHallNumber()));
-                                            HT.refresh(); // Refresh the whole table might be easier
-                                        }
-                                    }
-                                } else {
-                                    new Alert(Alert.AlertType.ERROR, "Failed to delete seat.").showAndWait();
-                                }
-                            }
-                        });
-                    });
-                }
-
-                @Override
-                public void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        HBox buttons = new HBox(deleteButton);
-                        buttons.setSpacing(10);
-                        buttons.setAlignment(Pos.CENTER);
-                        setGraphic(buttons);
-                    }
-                }
-            };
-            return cell;
-        };
-        ST_Action.setCellFactory(seatActionCellFactory);
-
-        filteredSeats = new FilteredList<>(seatList, p -> false); // Initially show no seats until a hall is selected
+        // Initially, the seat list is empty until a hall is selected.
+        // The predicate is set in filterSeatsByHall().
+        filteredSeats = new FilteredList<>(seatList, p -> false);
         SortedList<Seat> sortedSeats = new SortedList<>(filteredSeats);
         sortedSeats.comparatorProperty().bind(ST.comparatorProperty());
         ST.setItems(sortedSeats);
-        ST.setPlaceholder(new Label("Select a hall to view its seats or no seats found."));
+        ST.setPlaceholder(new Label("Select a hall to view its seats."));
     }
 
     private void refreshTables() {
-        // Re-fetch data and update lists - might be inefficient for large datasets
+        // Store current selection index
+        int selectedHallIndex = HT.getSelectionModel().getSelectedIndex();
+
+        // Re-fetch data from Client maps
         hallList.setAll(Client.getHallMap().values());
-        seatList.setAll(Client.getSeatMap().values());
+        seatList.setAll(Client.getSeatMap().values()); // Load all seats initially
+
+        // Refresh TableViews (important for SortedList/FilteredList updates)
         HT.refresh();
-        ST.refresh();
-        // Re-apply filters if needed
-        Hall selectedHall = HT.getSelectionModel().getSelectedItem();
-        filterSeatsByHall(selectedHall);
+        ST.refresh(); // Refresh seat table as well
+
+        // Re-apply filters and restore selection if possible
+        applySearchFilter(Search.getText()); // Re-apply search filter first
+
+        // Restore selection
+        if (selectedHallIndex >= 0 && selectedHallIndex < HT.getItems().size()) {
+            HT.getSelectionModel().select(selectedHallIndex);
+        } else {
+            HT.getSelectionModel().clearSelection();
+        }
+
+        // Re-filter seats based on the potentially restored selection
+        filterSeatsByHall(HT.getSelectionModel().getSelectedItem());
     }
 
+    // Filters the Seat Table based on the selected Hall
     private void filterSeatsByHall(Hall selectedHall) {
-        if (selectedHall == null) {
-            filteredSeats.setPredicate(seat -> false); // Show no seats if no hall selected
-        } else {
-            filteredSeats.setPredicate(seat -> seat.getHall().getHallNumber() == selectedHall.getHallNumber());
-        }
+        String lowerCaseFilter = Search.getText() == null ? "" : Search.getText().toLowerCase().trim();
+
+        filteredSeats.setPredicate(seat -> {
+            if (selectedHall == null) {
+                return false; // No hall selected, show no seats
+            }
+            // Check if seat belongs to the selected hall
+            boolean hallMatch = seat.getHall() != null && seat.getHall().getHallNumber() == selectedHall.getHallNumber();
+            if (!hallMatch) {
+                return false; // Doesn't belong to selected hall
+            }
+
+            // If search text is empty, show all seats for the selected hall
+            if (lowerCaseFilter.isEmpty()) {
+                return true;
+            }
+
+            // Check if the seat matches the search text
+            return String.valueOf(seat.getSeatId()).contains(lowerCaseFilter) ||
+                    String.valueOf(seat.getSeatNumber()).contains(lowerCaseFilter) ||
+                    String.valueOf(seat.getRowNumber()).contains(lowerCaseFilter);
+        });
+        ST.refresh(); // Refresh seat table after changing predicate
     }
 
     private void setupSearchFilter() {
         Search.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredHalls.setPredicate(hall -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true; // Show all if search is empty
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                // Search by Hall Number
-                if (String.valueOf(hall.getHallNumber()).contains(lowerCaseFilter)) {
-                    return true;
-                }
-                // Add more search criteria if needed (e.g., number of seats)
-                if (String.valueOf(hall.getNumberOfSeats()).contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false; // Does not match
-            });
-
-            // Optionally filter seats based on search too, or clear selection
-            Hall selectedHall = HT.getSelectionModel().getSelectedItem();
-            filterSeatsByHall(selectedHall); // Re-apply seat filter based on current hall selection and search
+            applySearchFilter(newValue);
         });
     }
 
-    public void add1(ActionEvent event) throws IOException {
-        SceneController.SwitchToAdminHallForm(event, null); // Pass null for adding new hall
-        refreshTables();
+    // Applies the search filter text to Halls and triggers Seat filtering
+    private void applySearchFilter(String newValue) {
+        String lowerCaseFilter = newValue == null ? "" : newValue.toLowerCase().trim();
+
+        // Filter Halls
+        filteredHalls.setPredicate(hall -> {
+            if (lowerCaseFilter.isEmpty()) {
+                return true; // No filter text, show all
+            }
+            // Match against hall number or number of seats
+            return String.valueOf(hall.getHallNumber()).contains(lowerCaseFilter) ||
+                    String.valueOf(hall.getNumberOfSeats()).contains(lowerCaseFilter);
+        });
+
+        // Re-filter seats based on the currently selected hall *after* filtering halls
+        Hall selectedHall = HT.getSelectionModel().getSelectedItem();
+
+        // If the currently selected hall is now filtered out, clear the selection and seat table
+        if (selectedHall != null && !filteredHalls.getPredicate().test(selectedHall)) {
+            HT.getSelectionModel().clearSelection();
+            filterSeatsByHall(null); // Clear seats
+        } else {
+            // Otherwise, re-apply the seat filter for the (potentially still) selected hall
+            filterSeatsByHall(selectedHall);
+        }
+        HT.refresh(); // Refresh hall table
+    }
+
+    public void add(ActionEvent event) throws IOException {
+        // Open Hall Form for adding a new Hall (pass null)
+        SceneController.SwitchToAdminHallForm(event, null);
+        refreshTables(); // Refresh after the form is closed
+    }
+
+    public void edit(ActionEvent event) throws IOException {
+        Hall selectedHall = HT.getSelectionModel().getSelectedItem();
+        if (selectedHall != null) {
+            // Open Hall Form for editing the selected Hall
+            SceneController.SwitchToAdminHallForm(event, selectedHall);
+            refreshTables(); // Refresh after the form is closed
+        } else {
+            AlertBox.alert("Information", "Please select a hall to edit.", "Close");
+        }
+    }
+
+    public void delete(ActionEvent event) {
+        Hall selectedHall = HT.getSelectionModel().getSelectedItem();
+        if (selectedHall == null) {
+            AlertBox.alert("Information", "Please select a hall to delete.", "Close");
+            return;
+        }
+
+        // Check for dependencies (Showtimes)
+        if (!selectedHall.getShowtimes().isEmpty()) {
+            AlertBox.alert("Error", "Cannot delete Hall " + selectedHall.getHallNumber() +
+                    " because it has associated showtimes. Please remove the showtimes first.", "Close");
+            return;
+        }
+
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm Deletion");
+        confirmation.setHeaderText("Delete Hall " + selectedHall.getHallNumber() + "?");
+        confirmation.setContentText("Are you sure you want to delete this hall and all its seats? This action cannot be undone.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = false;
+            String errorMessage = "Failed to delete Hall.";
+            try {
+                // Attempt to remove the hall (Client.removeHall should handle associated seats)
+                success = Client.removeHall(selectedHall);
+                if (!success) {
+                    errorMessage += " Check database connection or logs.";
+                }
+
+                if (success) {
+                    AlertBox.alert("Success", "Hall " + selectedHall.getHallNumber() + " deleted successfully.", "Close");
+                    refreshTables(); // Refresh view after successful deletion
+                } else {
+                    AlertBox.alert("Error", errorMessage, "Close");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                AlertBox.alert("Error", "An error occurred during deletion: " + e.getMessage(), "Close");
+            }
+        }
     }
 
     public void goToAdminBookingsTicketsPage(ActionEvent event) throws IOException {
@@ -246,6 +253,7 @@ TS_Hall_number.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellDa
         SceneController.SwitchToAdminCustomers(event);
     }
     public void goToAdminHallsSeatsPage(ActionEvent event) throws IOException {
+        // Already on this page, just refresh
         refreshTables();
     }
     public void goToAdminMovesGenresPage(ActionEvent event) throws IOException {
@@ -257,5 +265,4 @@ TS_Hall_number.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellDa
     public void goToLoginPage(ActionEvent event) throws IOException {
         SceneController.SwitchToLogin(event);
     }
-
 }

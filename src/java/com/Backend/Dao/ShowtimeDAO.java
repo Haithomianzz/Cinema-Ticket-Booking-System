@@ -11,15 +11,12 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class ShowtimeDAO {
-    //    private static final String GET_SHOWTIME_BY_ID = "SELECT * FROM showtime WHERE showtime_id = ?";
     private static final String GET_ALL_SHOWTIMES = "SELECT showtime_id, movie_id, hall_number, show_date, show_time, price_per_seat FROM showtime";
     private static final String GET_MAX_SHOWTIME_ID = "SELECT MAX(showtime_id) FROM showtime";
     private static final String GET_RESERVED_SEATS = "SELECT showtime_id, seat_id FROM Show_seats";
     private static final String INSERT_SHOWTIME = "INSERT INTO showtime (movie_id, hall_number, show_date, show_time, price_per_seat) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_SHOWTIME = "UPDATE showtime SET movie_id = ?, hall_number = ?, show_date = ?, show_time = ?, price_per_seat = ? WHERE showtime_id = ?";
     private static final String DELETE_SHOWTIME = "DELETE FROM showtime WHERE showtime_id = ?";
-    private static final String DELETE_SHOWTIME_BY_MOVIE_ID = "DELETE FROM showtime WHERE movie_id = ?";
-    private static final String DELETE_SHOWTIME_BY_HALL_ID = "DELETE FROM showtime WHERE hall_number = ?";
     private static final String DELETE_SHOW_SEATS = "DELETE FROM show_seat WHERE showtime_id = ?";
 
     public static int getMaxShowtimeId(Connection connection) {
@@ -48,8 +45,6 @@ public class ShowtimeDAO {
                 Showtime showtime = new Showtime(resultSet.getInt(1), movie, hall, resultSet.getString(4),
                         resultSet.getString(5), resultSet.getInt(6));
                 showtimeMap.put(resultSet.getInt(1), showtime);
-//                movie.addShowtime(showtime);
-//                hall.addShowtime(showtime);
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -123,34 +118,5 @@ public class ShowtimeDAO {
         System.err.println("Error: Unable to delete showtime.");
         return false;
     }
-    public static boolean deleteShowtimesByMovie(Connection connection, Movie movie){
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SHOWTIME_BY_MOVIE_ID);
-            preparedStatement.setInt(1, movie.getMovieId());
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement(DELETE_SHOW_SEATS);
-            preparedStatement.setInt(1, movie.getMovieId());
-            preparedStatement.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        System.err.println("Error: Unable to delete showtime.");
-        return false;
-    }
-    public static boolean deleteShowtimesByHall(Connection connection, Hall hall){
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SHOWTIME_BY_HALL_ID);
-            preparedStatement.setInt(1, hall.getHallNumber());
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement(DELETE_SHOW_SEATS);
-            preparedStatement.setInt(1, hall.getHallNumber());
-            preparedStatement.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        System.err.println("Error: Unable to delete showtime.");
-        return false;
-    }
-
 
 }

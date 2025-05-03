@@ -110,7 +110,6 @@
                            <columns>
                               <TableColumn fx:id="HT_Hall_number" prefWidth="133.0" text="hall_number" />
                               <TableColumn fx:id="TH_Nseats" prefWidth="163.0" text="number_of_seats" />
-                              <TableColumn fx:id="TH_Action" prefWidth="135.0" text="Actions" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -126,7 +125,6 @@
                               <TableColumn fx:id="TS_Hall_number" prefWidth="116.0" text=" hall_number" />
                               <TableColumn fx:id="TS_Seat_number" prefWidth="99.0" text="seat_number" />
                               <TableColumn fx:id="ST_Row_number" prefWidth="142.0" text="row_number" />
-                              <TableColumn fx:id="ST_Action" prefWidth="135.0" text="Actions" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -134,9 +132,14 @@
                         </TableView>
                      </children>
                       </AnchorPane>
-                  <Button layoutX="1195.0" layoutY="14.0" mnemonicParsing="false" onAction="#add1" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" />
                     </children>
                 </AnchorPane>
+            <HBox alignment="TOP_RIGHT" layoutX="879.0" layoutY="24.0" prefHeight="50.0" prefWidth="419.0" spacing="20.0" AnchorPane.bottomAnchor="650.0" AnchorPane.leftAnchor="871.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="24.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#add" prefHeight="36.0" prefWidth="94.0" style="-fx-background-color: #00c200;" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="94.0" style="-fx-background-color: red;" styleClass="btn-1" stylesheets="@../../Styles.css" text="Delete" />
+               </children>
+            </HBox>
             </children>
         </AnchorPane>
     </center>

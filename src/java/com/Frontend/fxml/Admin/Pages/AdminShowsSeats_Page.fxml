@@ -104,7 +104,6 @@
                                 <Font size="25.0" />
                             </font>
                         </Label>
-                  <Button layoutX="1194.0" layoutY="14.0" mnemonicParsing="false" onAction="#add1" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="14.0" />
                   <AnchorPane layoutX="22.0" layoutY="65.0" prefHeight="624.0" prefWidth="845.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="444.0" AnchorPane.topAnchor="65.0">
                      <children>
                         <TableView fx:id="ST" layoutX="8.0" layoutY="9.0" prefHeight="605.0" prefWidth="581.0" stylesheets="@../../Styles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -115,7 +114,6 @@
                               <TableColumn fx:id="ST_M_ID" prefWidth="111.0" text="movie_id" />
                               <TableColumn fx:id="ST_H_N" prefWidth="114.0" text="hall_number" />
                               <TableColumn fx:id="ST_S_P" prefWidth="122.0" text="price_per_seat" />
-                              <TableColumn prefWidth="139.0" text="Actions" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -129,7 +127,6 @@
                            <columns>
                               <TableColumn fx:id="SST_ST_ID" prefWidth="133.0" text=" showtime_id" />
                               <TableColumn fx:id="SST_S_ID" prefWidth="150.0" text="seat_id" />
-                              <TableColumn fx:id="ST_Action" prefWidth="135.0" text="Actions" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -139,6 +136,13 @@
                       </AnchorPane>
                     </children>
                 </AnchorPane>
+            <HBox alignment="TOP_RIGHT" layoutX="879.0" layoutY="24.0" prefHeight="50.0" prefWidth="419.0" spacing="20.0" AnchorPane.bottomAnchor="650.0" AnchorPane.leftAnchor="871.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="24.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#add" prefHeight="36.0" prefWidth="94.0" style="-fx-background-color: #00c200;" styleClass="btn-1" stylesheets="@../../Styles.css" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#edit" prefHeight="36.0" prefWidth="94.0" styleClass="btn-1" stylesheets="@../../Styles.css" text="Edit" />
+                  <Button mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="94.0" style="-fx-background-color: red;" styleClass="btn-1" stylesheets="@../../Styles.css" text="Delete" />
+               </children>
+            </HBox>
             </children>
         </AnchorPane>
     </center>

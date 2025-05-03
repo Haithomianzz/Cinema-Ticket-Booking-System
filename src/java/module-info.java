@@ -13,12 +13,13 @@ module com.company {
     opens com.Frontend to javafx.fxml;
 
     opens com.Backend.Entities to javafx.base;
-    opens com.Frontend.controllers to javafx.fxml;
-    opens com.Frontend.controllers.Customer.Pages to javafx.fxml;
-    opens com.Frontend.controllers.Admin.Pages to javafx.fxml;
-    opens com.Frontend.controllers.Admin.Forms to javafx.fxml;
-    opens com.Frontend.controllers.Customer.Cards to javafx.fxml; // Fix applied here
-    opens com.Frontend.controllers.Customer.Forms to javafx.fxml;
+    opens com.Frontend.controllers to javafx.fxml,javafx.base;
+    opens com.Frontend.controllers.Customer.Pages to javafx.fxml,javafx.base;
+    opens com.Frontend.controllers.Admin.Pages to javafx.fxml,javafx.base;
+    opens com.Frontend.controllers.Admin.Forms to javafx.fxml,javafx.base;
+    opens com.Frontend.controllers.Customer.Cards to javafx.fxml,javafx.base; // Fix applied here
+    opens com.Frontend.controllers.Customer.Forms to javafx.fxml,javafx.base;
+
     exports com.Backend.Dao;
     opens com.Backend.Dao to javafx.fxml;
     opens com.Backend to javafx.fxml;

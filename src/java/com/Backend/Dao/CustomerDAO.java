@@ -90,27 +90,4 @@ public class CustomerDAO {
         return false;
     }
 
-    /*public static Customer getCustomerById(Connection connection, int customer_id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_CUSTOMER_BY_ID);
-            preparedStatement.setInt(1, customer_id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return new Customer(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5),
-                        Customer.statusFromString(resultSet.getString(6))
-                );
-            }
-            else {
-                System.err.println("No customer with id " + customer_id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 }

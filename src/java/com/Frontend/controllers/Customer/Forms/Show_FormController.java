@@ -58,10 +58,20 @@ public class Show_FormController {
         hour = (hour > 12) ? hour - 12 : (hour == 0 ? 12 : hour);
         String formattedTime = String.format("%d:%s %s", hour, time.substring(3, 5), period);
 
+
         for (Ticket ticket : showtime.getTickets()) {
             int row = ticket.getSeat().getRowNumber() - 1; // Adjust for 1-indexed data
             int col = ticket.getSeat().getSeatNumber() - 1; // Adjust for 1-indexed data
             ((MaterialIconView) gridSeats.getChildren().get(row * 6 + col)).setFill(javafx.scene.paint.Color.web("#c9b3b3"));
+        }
+        for (Node node : gridSeats.getChildren()) {
+            int row = GridPane.getRowIndex(node) + 1;
+            int col = GridPane.getColumnIndex(node) + 1;
+            boolean seatExists = showtime.getHall().getSeats().stream()
+                    .anyMatch(seat -> seat.getRowNumber() == row && seat.getSeatNumber() == col);
+            if (!seatExists) {
+                node.setVisible(false);
+            }
         }
 
         BF_Title.setText(showtime.getMovie().getTitle());
@@ -76,20 +86,22 @@ public class Show_FormController {
 
     public void selectSeat(MouseEvent e) {
         Node source = (Node) e.getSource();
-        String style = source.getStyle();
         String seatId = source.getId();
-
-        if (style.contains("-fx-fill:#c9b3b3;")) {
+        if (source instanceof MaterialIconView && ((MaterialIconView) source).getFill().equals(javafx.scene.paint.Color.web("#c9b3b3"))) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "The seat " + seatId + " is already booked!", ButtonType.OK);
             alert.showAndWait();
-        } else if (style.contains("-fx-fill:red;")) {
-            source.setStyle("-fx-fill:black; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+        }
+        else if (source instanceof MaterialIconView && ((MaterialIconView) source).getFill().equals(javafx.scene.paint.Color.BLACK)) {
+            ((MaterialIconView) source).setFill(javafx.scene.paint.Color.RED);
+            selectedSeats.add(seatId);
+            updateSeatLabels();
+        } else if (source instanceof MaterialIconView && ((MaterialIconView) source).getFill().equals(javafx.scene.paint.Color.RED)) {
+            ((MaterialIconView) source).setFill(javafx.scene.paint.Color.BLACK);
             selectedSeats.remove(seatId);
             updateSeatLabels();
         } else {
-            source.setStyle("-fx-fill:red; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
-            selectedSeats.add(seatId);
-            updateSeatLabels();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The seat " + seatId + " is not available for selection!", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 

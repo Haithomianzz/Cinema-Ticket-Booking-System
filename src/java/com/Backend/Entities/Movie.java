@@ -31,7 +31,7 @@ public class Movie {
         this.language = Language.valueOf(language.toUpperCase());
         this.duration = duration;
         this.releaseDate = new Date(releaseDate); // Ensure Date class handles this format
-        this.genres = genres;
+        this.genres = new ArrayList<>(genres);
         this.imageData = imageData; // Assign byte array
     }
     public Movie(int movieId, String title, String description, Float rating, String language, int duration, String releaseDate, ArrayList<Genre> genres, byte[] imageData) {
@@ -42,10 +42,10 @@ public class Movie {
         this.language = Language.valueOf(language.toUpperCase());
         this.duration = duration;
         this.releaseDate = new Date(releaseDate); // Ensure Date class handles this format
-        this.genres = genres;
+        this.genres = new ArrayList<>(genres);
         this.imageData = imageData; // Assign byte array
     }
-    public void editMovie(String title, String description, Float rating, String language, int duration, String releaseDate, ArrayList<Genre> genres /*, byte[] newImageData */) {
+    public void editMovie(String title, String description, Float rating, String language, int duration, String releaseDate, ArrayList<Genre> genres, /*, byte[] newImageData */byte[] imageData) {
         this.title = (title != null && !title.equals(this.title)) ? title : this.title;
         this.description = (description != null && !description.equals(this.description)) ? description : this.description;
         this.rating = (rating != null && !rating.equals(this.rating)) ? rating : this.rating;
@@ -53,7 +53,7 @@ public class Movie {
         this.duration = (duration != 0 && duration != this.duration) ? duration : this.duration;
         this.releaseDate = (releaseDate != null && !releaseDate.equals(this.releaseDate.toString())) ? new Date(releaseDate) : this.releaseDate;
         this.genres = (genres != null && !genres.equals(this.genres)) ? genres : this.genres;
-        // if (newImageData != null) { this.imageData = newImageData; }
+        this.imageData = (imageData != null && imageData.length > 0) ? imageData : this.imageData; // Assign byte array
     }
     public int getMovieId() { return movieId; }
     public String getTitle() { return title; }

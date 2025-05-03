@@ -12,12 +12,10 @@ import java.util.HashMap;
 public class BookingDAO {
     private static final String GET_MAX_BOOKING_ID = "SELECT MAX(booking_id) FROM booking";
     private static final String GET_ALL_BOOKINGS = "SELECT booking_id, customer_id, total_price, booking_date, booking_status FROM booking";
-//    private static final String GET_BOOKING_BY_ID = "SELECT * FROM booking WHERE booking_id = ?";
     private static final String CONFIRM_BOOKING = "UPDATE booking SET booking_status = 'CONFIRMED' WHERE booking_id = ?";
     private static final String INSERT_BOOKING = "INSERT INTO booking (customer_id, total_price, booking_date, booking_status) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_BOOKING = "UPDATE booking SET customer_id = ?, total_price = ?, booking_date = ?, booking_status = ? WHERE booking_id = ?";
     private static final String DELETE_BOOKING = "DELETE FROM booking WHERE booking_id = ?";
-    private static final String DELETE_BOOKING_BY_CUSTOMER_ID = "DELETE FROM booking WHERE customer_id = ?";
     private static final String CANCEL_BOOKING = "EXEC CancelBooking @booking_id = ?";
     public static int getMaxBookingId(Connection connection){
         try {
@@ -117,17 +115,6 @@ public class BookingDAO {
             e.printStackTrace();
         }
         System.err.println("Failed to cancel booking");
-        return false;
-    }
-    public static boolean deleteBookingsByCustomer(Connection connection, Customer customer){
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOKING_BY_CUSTOMER_ID);
-            preparedStatement.setInt(1, customer.getCustomerId());
-            return preparedStatement.executeUpdate() > 0;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        System.err.println("Failed to delete booking");
         return false;
     }
 }

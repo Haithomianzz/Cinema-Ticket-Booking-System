@@ -60,11 +60,11 @@ public class Booking {
         return bookingStatus;
     }
     public ArrayList<Ticket> getTickets() { return tickets; }
+    public void deleteBooking() {
+        customer.removeBooking(this);
+    }
     public void cancelBooking() {
         bookingStatus = BookingStatus.CANCELLED;
-        for (Ticket ticket : tickets) {
-            ticket.cancelTicket();
-        }
     }
     public static void setBookingIdCounter(int counterID) {
         Booking.counterID = counterID;

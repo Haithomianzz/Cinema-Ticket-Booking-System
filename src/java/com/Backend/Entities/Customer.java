@@ -36,11 +36,12 @@ public class Customer {
         this.password = Password;
         this.membership = membership;
     }
-    public void editProfile(String name, String email, String phone, String Password) {
+    public void editProfile(String name, String email, String phone, String Password, MembershipStatus membership) {
         this.name = (name != null && !name.equals(this.name)) ? name : this.name;
         this.email = (email != null && !email.equals(this.email)) ? email : this.email;
         this.phone_number = (phone != null && !phone.equals(this.phone_number)) ? phone : this.phone_number;
         this.password = (Password != null && !Password.equals(this.password)) ? Password : this.password;
+        this.membership = (membership != null && !membership.equals(this.membership)) ? membership : this.membership;
     }
     public void addBooking(Booking booking) {
         bookings.add(booking);
