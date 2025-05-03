@@ -168,7 +168,9 @@ public class Client implements Runnable {
                 showtimeMap.remove(showtime.getShowtimeId());
                 showtime.cancelShowtime();
                 if (!showtime.getTickets().isEmpty()) {
-                    ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets()) ;
+                    ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets());
+                    tickets.getFirst().getBooking().cancelBooking();
+                    BookingDAO.updateCancelBooking(connection, tickets.getFirst().getBooking());
                     for (Ticket ticket : tickets) {
                         ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();
@@ -195,6 +197,8 @@ public class Client implements Runnable {
                 showtime.cancelShowtime();
                 if (!showtime.getTickets().isEmpty()) {
                     ArrayList<Ticket> tickets = new ArrayList<>(showtime.getTickets()) ;
+                    tickets.getFirst().getBooking().cancelBooking();
+                    BookingDAO.updateCancelBooking(connection, tickets.getFirst().getBooking());
                     for (Ticket ticket : tickets) {
                         ticketMap.remove(new Triplet<>(ticket.getBooking().getBookingId(),ticket.getShowtime().getShowtimeId(),ticket.getSeat().getSeatId()));
                         ticket.cancelTicket();

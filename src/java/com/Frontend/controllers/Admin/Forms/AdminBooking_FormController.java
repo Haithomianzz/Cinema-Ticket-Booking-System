@@ -63,6 +63,7 @@ public class AdminBooking_FormController {
         availableSeatsLabel.setVisible(false);
 
         for (Customer customer : Client.getCustomerMap().values()) {
+            if (customer.getMembership() == Customer.MembershipStatus.ADMIN) continue;
             ABF_Customer.getItems().add(customer.getName());
         }
         for (Movie movie : Client.getMovieMap().values()) {
@@ -94,7 +95,9 @@ public class AdminBooking_FormController {
                 ABF_Show.getItems().add(showtime.getShowTime());
             }
         });
-        ABF_Show.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) -> {
+        ABF_Show.setOnAction(event -> {
+            selectedSeats.clear();
+            String newValue = ABF_Show.getValue();
             for (Showtime showtime : movie.getShowtimes()) {
                 if (showtime.getShowTime().equals(newValue)) {
                     this.showtime = showtime;
@@ -111,10 +114,39 @@ public class AdminBooking_FormController {
         });
 
     }
+    public void refreshSeatIcons() {
+        // Reset all seat nodes
+        for (Node node : gridSeats.getChildren()) {
+            if (node instanceof MaterialIconView) {
+                node.setVisible(false); // Hide all seats initially
+                ((MaterialIconView) node).setFill(javafx.scene.paint.Color.BLACK); // Reset color to default
+            }
+            }
+
+        // Show and configure seats based on the current hall
+        for (Seat seat : showtime.getHall().getSeats()) {
+            int row = seat.getRowNumber() - 1; // Adjust for 1-indexed data
+            int col = seat.getSeatNumber() - 1; // Adjust for 1-indexed data
+            Node seatNode = gridSeats.getChildren().get(row * 6 + col);
+            if (seatNode instanceof MaterialIconView) {
+                seatNode.setVisible(true); // Make the seat visible
+        }
+        }
+
+        // Update booked seats
+        for (Ticket ticket : showtime.getTickets()) {
+            int row = ticket.getSeat().getRowNumber() - 1; // Adjust for 1-indexed data
+            int col = ticket.getSeat().getSeatNumber() - 1; // Adjust for 1-indexed data
+            ((MaterialIconView) gridSeats.getChildren().get(row * 6 + col)).setFill(javafx.scene.paint.Color.web("#c9b3b3"));
+        }
+    }
+
 
 
     public void setData(Showtime showtime) {
         this.showtime = showtime;
+        refreshSeatIcons();
+
         Hall hall = showtime.getHall();
 
         String time = showtime.getShowTime();
