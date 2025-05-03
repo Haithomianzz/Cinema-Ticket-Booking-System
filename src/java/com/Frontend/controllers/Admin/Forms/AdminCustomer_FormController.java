@@ -28,7 +28,11 @@ public class AdminCustomer_FormController {
     private Customer customer;
 
     public void initialize() {
-        ObservableList<String> membershipTypes = FXCollections.observableArrayList("REGULAR", "VIP");
+        ObservableList<String> membershipTypes = FXCollections.observableArrayList(
+                Customer.MembershipStatus.REGULAR.toString(),
+                Customer.MembershipStatus.PREMIUM.toString(),
+                Customer.MembershipStatus.VIP.toString()
+        );
         ACF_Membership.setItems(membershipTypes);
     }
 

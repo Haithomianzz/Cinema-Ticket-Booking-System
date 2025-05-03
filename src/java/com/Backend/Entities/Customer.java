@@ -7,6 +7,7 @@ public class Customer {
 
     public enum MembershipStatus {
         REGULAR,
+        PREMIUM,
         VIP,
         ADMIN
     }

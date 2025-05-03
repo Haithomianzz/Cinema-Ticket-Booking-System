@@ -213,6 +213,8 @@ public class AdminShowsSeats_PageController {
         SceneController.SwitchToAdminShowsSeats(event);
     }
     public void goToLoginPage(ActionEvent event) throws IOException {
+        Main.setCurrentUser(null);
+        Main.setCurrentUserType(Main.UserType.GUEST);
         SceneController.SwitchToLogin(event);
     }
 

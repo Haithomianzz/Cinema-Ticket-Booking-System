@@ -1,6 +1,7 @@
 package com.Frontend.controllers.Customer.Cards;
 
 import com.Backend.Entities.Showtime;
+import com.Frontend.Main;
 import com.Frontend.SceneController;
 import com.Frontend.controllers.Customer.Forms.Show_FormController;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
+import com.Frontend.AlertBox;
 
 public class Shows_CardController {
 
@@ -46,6 +48,10 @@ public class Shows_CardController {
     }
 
     public void goToShowForm(MouseEvent event) throws IOException {
+        if (Main.getCurrentUser() == null || Main.getCurrentUserType() == Main.UserType.GUEST) {
+            AlertBox.alert("Error", "You must be logged in to access this page!", "Close");
+            return;
+        }
         SceneController sceneController = new SceneController();
         sceneController.SwitchToShowForm(event, show);
     }

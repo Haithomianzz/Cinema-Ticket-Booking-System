@@ -129,6 +129,8 @@ public class MovieDetail_PageController {
             AlertBox.alert("Error", "You must be logged in to access this page!", "Close");
     }
     public void goToLoginPage(ActionEvent event) throws IOException {
+        Main.setCurrentUser(null);
+        Main.setCurrentUserType(Main.UserType.GUEST);
         SceneController sceneController = new SceneController();
         sceneController.SwitchToLogin(event);
     }
