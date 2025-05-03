@@ -90,11 +90,12 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "\nBooking transaction " +
-                "\ncustomerId=" + customer.getCustomerId() +
-                "\nbookingID=" + bookingID +
-                "\ntotalPrice=" + totalPrice +
-                "\nbookingDate='" + bookingDate +
-                "\nbookingStatus='" + bookingStatus ;
+        return "\nBooking Transaction: " +
+                "\ncustomerId= " + customer.getCustomerId() +
+                "\ncustomerName= " + customer.getName() +
+                "\nbookingID= " + bookingID +
+                "\ntotalPrice= " + totalPrice +
+                "\nbookingDate= " + bookingDate +
+                "\nbookingStatus= " + bookingStatus + '\n' ;
     }
 }

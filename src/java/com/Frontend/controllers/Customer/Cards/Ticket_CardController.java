@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.ByteArrayInputStream;
+
 public class Ticket_CardController {
 
     @FXML
@@ -40,7 +42,7 @@ public class Ticket_CardController {
         TC_SeatN.setText(Integer.toString(ticket.getSeat().getSeatNumber()));
         TC_SeatR.setText(Integer.toString(ticket.getSeat().getRowNumber()));
         TC_Price.setText(Integer.toString(ticket.getShowtime().getPricePerSeat()));
-        TC_QrCode.setImage(new Image(getClass().getResourceAsStream( "/com/Frontend/resources/qr.jpeg" )));
+        TC_QrCode.setImage(new Image(new ByteArrayInputStream(ticket.getQrCode())));
     }
 
 }

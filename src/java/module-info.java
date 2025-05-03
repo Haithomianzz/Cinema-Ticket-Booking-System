@@ -10,8 +10,9 @@ module com.company {
     requires org.controlsfx.controls;
     requires de.jensd.fx.glyphs.materialicons;
     requires java.xml.crypto;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
     opens com.Frontend to javafx.fxml;
-
     opens com.Backend.Entities to javafx.base;
     opens com.Frontend.controllers to javafx.fxml,javafx.base;
     opens com.Frontend.controllers.Customer.Pages to javafx.fxml,javafx.base;

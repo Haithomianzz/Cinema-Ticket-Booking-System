@@ -97,8 +97,8 @@ public class Showtime {
         return "\nShowtime ID: " + showtimeId +
                 "\nMovie ID: " + movie.getMovieId() +
                 "\nHall Number: " + hall.getHallNumber() +
-                "\nShow Date: " + showDate +
-                "\nShow Time: " + showTime;
+                "\nShow Date: " + showDate.toString() +
+                "\nShow Time: " + showTime.substring(0,8) + '\n';
     }
 
 }
