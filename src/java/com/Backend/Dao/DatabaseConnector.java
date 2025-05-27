@@ -8,11 +8,11 @@ import java.sql.SQLException;
  * Provides methods to connect to the database.
  */
 public class DatabaseConnector {
-    private static final String CONN_STRING = "jdbc:sqlserver://72.146.24.134:1433;databaseName=Cinema;encrypt=true;trustServerCertificate=true";
+    private static final String CONN_STRING = "YOUR_CONNECTION_STRING";
 
 
-    private static final String USERNAME = "system";
-    private static final String PASSWORD = "ayhaga42";
+    private static final String USERNAME = "YOUR_USERNAME";
+    private static final String PASSWORD = "YOUR_PASSWORD";
 
     private static final SQLServerDataSource dataSource = new SQLServerDataSource();
     private static Connection connection = null;
